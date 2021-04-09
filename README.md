@@ -1,4 +1,4 @@
-# Google reCAPTCHA Plugin for Zen Cart v3.5
+# Google reCAPTCHA Plugin v3.5 for Zen Cart 157+
 
 Released under the GPL License 2.0.
 
