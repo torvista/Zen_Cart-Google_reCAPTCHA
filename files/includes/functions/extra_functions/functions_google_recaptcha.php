@@ -13,10 +13,10 @@ $reCaptchaKeys = ['domain' => 'www.yoursite.com', 'sitekey' => 'ENTER_YOUR_SITE_
 // $reCaptchaKeys [] = ['domain' => 'www.yourdevsite.com', 'sitekey' => 'ENTER_YOUR_DEVSITE_KEY_HERE', 'privatekey' => 'ENTER_YOUR_DEVPRIVATE_KEY_HERE'];
 
 //set to true for the pages on which you wish to enable reCaptcha (don't forget to add the code snippet to the template!)
-const GOOGLE_RECAPCHTA_ASK_QUESTION = 'true';
-const GOOGLE_RECAPCHTA_CONTACT_US = 'true';
-const GOOGLE_RECAPCHTA_CREATE_ACCOUNT = 'true';
-const GOOGLE_RECAPCHTA_REVIEWS = 'true';
+const GOOGLE_RECAPCHTA_ASK_QUESTION = 'false';
+const GOOGLE_RECAPCHTA_CONTACT_US = 'false';
+const GOOGLE_RECAPCHTA_CREATE_ACCOUNT = 'false';
+const GOOGLE_RECAPCHTA_REVIEWS = 'false';
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
