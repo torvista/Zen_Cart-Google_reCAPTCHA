@@ -9,16 +9,16 @@
 class zcObserverGoogleRecaptchaObserver extends base {
     public function __construct() {
         $pages_to_check = [];
-        if (defined('GOOGLE_RECAPCHTA_ASK_QUESTION') && GOOGLE_RECAPCHTA_ASK_QUESTION === 'true') {
+        if (defined('GOOGLE_RECAPCHTA_ASK_QUESTION') && GOOGLE_RECAPCHTA_ASK_QUESTION==='true') {
             $pages_to_check[] = 'NOTIFY_ASK_A_QUESTION_CAPTCHA_CHECK';
         }
-        if (defined('GOOGLE_RECAPCHTA_CONTACT_US') && GOOGLE_RECAPCHTA_CONTACT_US === 'true') {
+        if (defined('GOOGLE_RECAPCHTA_CONTACT_US') && GOOGLE_RECAPCHTA_CONTACT_US==='true') {
             $pages_to_check[] = 'NOTIFY_CONTACT_US_CAPTCHA_CHECK';
         }
-        if (defined('GOOGLE_RECAPCHTA_CREATE_ACCOUNT') && GOOGLE_RECAPCHTA_CREATE_ACCOUNT === 'true') {
+        if (defined('GOOGLE_RECAPCHTA_CREATE_ACCOUNT') && GOOGLE_RECAPCHTA_CREATE_ACCOUNT==='true') {
             $pages_to_check[] = 'NOTIFY_CREATE_ACCOUNT_CAPTCHA_CHECK';
         }
-        if (defined('GOOGLE_RECAPCHTA_REVIEWS') && GOOGLE_RECAPCHTA_REVIEWS === 'true') {
+        if (defined('GOOGLE_RECAPCHTA_REVIEWS') && GOOGLE_RECAPCHTA_REVIEWS==='true') {
             $pages_to_check[] = 'NOTIFY_REVIEWS_WRITE_CAPTCHA_CHECK';
         }
         if (count($pages_to_check) > 0) $this->attach($this, $pages_to_check);
@@ -36,7 +36,7 @@ class zcObserverGoogleRecaptchaObserver extends base {
         require_once __DIR__ . '/google/autoload.php';
 
         switch (true) {
-            case (ini_get('allow_url_fopen') !== 1 && function_exists('fsockopen')) :
+            case (ini_get('allow_url_fopen')!==1 && function_exists('fsockopen')) :
                 // if file_get_contents() is disabled, this alternative request method uses fsockopen().
                 $method = 'SocketPost';
                 $recaptcha = new \ReCaptcha\ReCaptcha($privatekey, new \ReCaptcha\RequestMethod\SocketPost());
@@ -61,7 +61,7 @@ class zcObserverGoogleRecaptchaObserver extends base {
         if (!$resp->isSuccess()) {
             $errorArray = array();
             $errors = $resp->getErrorCodes();
-
+            //replace Google error codes with local language strings
             if (in_array('missing-input-secret', $errors, true)) {
                 $errorArray[] = RECAPTCHA_MISSING_INPUT_SECRET;
             }
