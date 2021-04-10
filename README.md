@@ -1,16 +1,16 @@
-# Google reCAPTCHA Plugin v3.5 for Zen Cart 157+
+# Google reCAPTCHA Plugin v3.5 for Zen Cart 15x
 
 Released under the GPL License 2.0.
 
-This Plugin provides Google reCAPTCHA functionality (v2/v3), for optional use on the pages with user-entered forms: Ask A Question, Contact Us, Create Account and Write a Review.
+This Plugin provides Google reCAPTCHA functionality (v2/v3), for optional use on the pages with user-entered forms: Ask A Question, Contact Us, Create Account and Write a Review. It should work for all versions for Zen Cart 1.51 onwards.
 
 ## Installation
 
 1. Copy the new files to your test server.
-
-/includes/classes/observers/auto.google_recaptcha_observer.php: watches the relevant page(s) with the contact form. Autoloads.
+/includes/autoloaders/config.google_recaptcha.php: Loads the observer. Only required for versions of Zen Cart PRIOR to 1.53. From 1.53 onwards it is unused/may be deleted.
+/includes/classes/observers/auto.google_recaptcha_observer.php: watches the relevant page(s) with the contact form. This file autoloads from Zen Cart 1.53 onwards.
 /includes/functions/extra_functions/functions_google_recaptcha.php: **this file MUST be modified by the user to add the Google Site and Private keys and also to enable/disable the pages to be watched.
-/includes/languages/english/extra_definitions/reCaptcha.php : error messages for when the captcha is not passed. Note the text show on the reCAPTCHA itself is Google-generated.
+/includes/languages/english/extra_definitions/reCaptcha.php : define error message texts for when the captcha is not validated. Note that the text shown on the reCAPTCHA itself is Google-generated.
 
 The following set of files come directly from the Google reCAPTCHA library on GitHub: https://github.com/google/recaptcha
 
