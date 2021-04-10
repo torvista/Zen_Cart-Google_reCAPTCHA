@@ -5,10 +5,11 @@
  *  torvista 2021
  */
 
-//EXAMPLE FORMAT $reCaptchaKeys = ['domain' => 'www.yoursite.com', 'sitekey' => 'ENTER_YOUR_SITE_KEY_HERE', 'privatekey' => 'ENTER_YOUR_PRIVATE_KEY_HERE'];
+//EXAMPLE FORMAT:
+//$reCaptchaKeys[] = ['domain' => 'www.yoursite.com', 'sitekey' => 'ENTER_YOUR_SITE_KEY_HERE', 'privatekey' => 'ENTER_YOUR_PRIVATE_KEY_HERE'];
 
-//Enter your site details here
-$reCaptchaKeys = ['domain' => 'www.yoursite.com', 'sitekey' => 'ENTER_YOUR_SITE_KEY_HERE', 'privatekey' => 'ENTER_YOUR_PRIVATE_KEY_HERE'];
+//ENTER YOUR SITE DETAILS HERE
+//$reCaptchaKeys[] = ['domain' => 'www.yoursite.com', 'sitekey' => 'ENTER_YOUR_SITE_KEY_HERE', 'privatekey' => 'ENTER_YOUR_PRIVATE_KEY_HERE'];
 //You may add more sites and keys to this array, for different servers, each one needs their own keys from Google
 // $reCaptchaKeys [] = ['domain' => 'www.yourdevsite.com', 'sitekey' => 'ENTER_YOUR_DEVSITE_KEY_HERE', 'privatekey' => 'ENTER_YOUR_DEVPRIVATE_KEY_HERE'];
 
