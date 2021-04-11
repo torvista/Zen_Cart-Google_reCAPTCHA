@@ -36,7 +36,7 @@ class zcObserverGoogleRecaptchaObserver extends base {
         require_once __DIR__ . '/google/autoload.php';
 
         switch (true) {
-            case (ini_get('allow_url_fopen')!==1 && function_exists('fsockopen')) :
+            case (ini_get('allow_url_fopen')!=='1' && function_exists('fsockopen')) :
                 // if file_get_contents() is disabled, this alternative request method uses fsockopen().
                 $method = 'SocketPost';
                 $recaptcha = new \ReCaptcha\ReCaptcha($privatekey, new \ReCaptcha\RequestMethod\SocketPost());
