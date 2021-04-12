@@ -56,34 +56,36 @@ class zcObserverGoogleRecaptchaObserver extends base {
 //uncomment for debugging
 //$messageStack->add('contact', 'allow_url_fopen=' . ini_get('allow_url_fopen') . '<br>' . 'fsockopen=' . function_exists('fsockopen') . '<br>' . '$method used=' . $method);
 
-        $resp = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
+        if (isset($_POST['g-recaptcha-response'])) {
+            $resp = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
 
-        if (!$resp->isSuccess()) {
-            $errorArray = array();
-            $errors = $resp->getErrorCodes();
-            //replace Google error codes with local language strings
-            if (in_array('missing-input-secret', $errors, true)) {
-                $errorArray[] = RECAPTCHA_MISSING_INPUT_SECRET;
+            if (!$resp->isSuccess()) {
+                $errorArray = array();
+                $errors = $resp->getErrorCodes();
+                //replace Google error codes with local language strings
+                if (in_array('missing-input-secret', $errors, true)) {
+                    $errorArray[] = RECAPTCHA_MISSING_INPUT_SECRET;
+                }
+                if (in_array('invalid-input-secret', $errors, true)) {
+                    $errorArray[] = RECAPTCHA_INVALID_INPUT_SECRET;
+                }
+                if (in_array('missing-input-response', $errors, true)) {
+                    $errorArray[] = RECAPTCHA_MISSING_INPUT_RESPONSE;
+                }
+                if (in_array('invalid-input-response', $errors, true)) {
+                    $errorArray[] = RECAPTCHA_INVALID_INPUT_RESPONSE;
+                }
+                if (in_array('bad-request', $errors, true)) {
+                    $errorArray[] = RECAPTCHA_BAD_REQUEST;
+                }
+                if (in_array('timeout-or-duplicate', $errors, true)) {
+                    $errorArray[] = RECAPTCHA_TIMEOUT_OR_DUPLICATE;
+                }
+                $error_messages = implode(', ', $errorArray);
+                $messageStack->add($event_array[$eventID], $error_messages);
+                $error = true;
             }
-            if (in_array('invalid-input-secret', $errors, true)) {
-                $errorArray[] = RECAPTCHA_INVALID_INPUT_SECRET;
-            }
-            if (in_array('missing-input-response', $errors, true)) {
-                $errorArray[] = RECAPTCHA_MISSING_INPUT_RESPONSE;
-            }
-            if (in_array('invalid-input-response', $errors, true)) {
-                $errorArray[] = RECAPTCHA_INVALID_INPUT_RESPONSE;
-            }
-            if (in_array('bad-request', $errors, true)) {
-                $errorArray[] = RECAPTCHA_BAD_REQUEST;
-            }
-            if (in_array('timeout-or-duplicate', $errors, true)) {
-                $errorArray[] = RECAPTCHA_TIMEOUT_OR_DUPLICATE;
-            }
-            $error_messages = implode(', ', $errorArray);
-            $messageStack->add($event_array[$eventID], $error_messages);
-            $error = true;
+            return $error;
         }
-        return $error;
     }
 }
