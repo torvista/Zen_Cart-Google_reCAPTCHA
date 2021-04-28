@@ -58,7 +58,6 @@ class zcObserverGoogleRecaptchaObserver extends base {
 
         if (isset($_POST['g-recaptcha-response'])) {
             $resp = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
-
             if (!$resp->isSuccess()) {
                 $errorArray = array();
                 $errors = $resp->getErrorCodes();
@@ -85,7 +84,11 @@ class zcObserverGoogleRecaptchaObserver extends base {
                 $messageStack->add($event_array[$eventID], $error_messages);
                 $error = true;
             }
-            return $error;
+        } else {
+            $messageStack->add($event_array[$eventID], RECAPTCHA_MISSING_INPUT_RESPONSE);
+            $_POST['g-recaptcha-response'] = 'no recaptcha response';
+            $error = true;
         }
+        return $error;
     }
 }

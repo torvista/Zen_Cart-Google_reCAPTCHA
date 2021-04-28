@@ -51,16 +51,20 @@ Insert the code in these template files as required.
 /includes/templates/YOUR_TEMPLATE/templates/tpl_contact_us_default.php
 /includes/templates/YOUR_TEMPLATE/templates/tpl_modules_create_account.php
 /includes/templates/YOUR_TEMPLATE/templates/tpl_product_reviews_write_default.php
+
 Place it next to the submit button.
 eg:
 ````</fieldset>
 <?php echo recaptcha_get_html(false, 'light', 'normal', 'margin:5px'); // Google reCaptcha ?>
 <div class="buttonRow forward"><?php echo zen_image_submit(BUTTON_IMAGE_SEND, BUTTON_SEND_ALT); ?></div> `
 ````
+
 3. By default, the reCAPTCHA is disabled on all pages: you need to enable each page in
+
 /includes/functions/extra_functions/functions_google_recaptcha.php
 
 4. An API key pair is required from Google are required to use the reCAPTCHA.
+
 Go to
 https://www.google.com/recaptcha/admin/create 
 and create the Google reCAPTCHA keys for your domain.
