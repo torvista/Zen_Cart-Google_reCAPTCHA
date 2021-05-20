@@ -1,4 +1,4 @@
-# Google reCAPTCHA Plugin v3.5 for Zen Cart 15x
+# Google reCAPTCHA Plugin v3.6 for Zen Cart 1.5x
 
 Released under the GPL License 2.0.
 
@@ -6,11 +6,15 @@ This Plugin provides Google reCAPTCHA functionality (v2/v3), for optional use on
 
 ## Installation
 
-1. Copy the new files to your test server.
+1. MERGE the new files to your TEST server. Some are new, some are core edits, some are template overrides. DO NOT BLINDLY COPY THE FILES!
+
 /includes/autoloaders/config.google_recaptcha.php: Loads the observer. Only required for versions of Zen Cart PRIOR to 1.53. From 1.53 onwards it is unused/may be deleted.
-/includes/classes/observers/auto.google_recaptcha_observer.php: watches the relevant page(s) with the contact form. This file autoloads from Zen Cart 1.53 onwards.
-/includes/functions/extra_functions/functions_google_recaptcha.php: **this file MUST be modified by the user to add the Google Site and Private keys and also to enable/disable the pages to be watched.
-/includes/languages/english/extra_definitions/reCaptcha.php : define error message texts for when the captcha is not validated. Note that the text shown on the reCAPTCHA itself is Google-generated.
+
+/includes/classes/observers/auto.google_recaptcha_observer.php: watches the relevant page(s) with contact forms. This file autoloads from Zen Cart 1.53 onwards.
+
+/includes/functions/extra_functions/functions_google_recaptcha.php: **this file MUST be modified by the user to add the Google Site and Private keys and also to enable/disable the captcha on individual pages.**
+
+/includes/languages/english/extra_definitions/reCaptcha.php: define error message texts for when the captcha is not validated. Note that the text shown on the reCAPTCHA itself is Google-generated.
 
 The following set of files come directly from the Google reCAPTCHA library on GitHub: https://github.com/google/recaptcha
 
@@ -29,10 +33,29 @@ All files are unmodified from /src
 /includes/classes/observers/google/ReCaptcha/RequestMethod/Socket.php
 /includes/classes/observers/google/ReCaptcha/RequestMethod/SocketPost.php
 
+Where core files are modified, I include the original for easy comparison/reference, suffixed .157 php. You do not need these, but personally I leave them in my site to make it very obvious when a core file has been modified.
 
-2. Add the code snippet that generates the Captcha html, to the templates where you want it to display.
+\includes\modules\pages\ask_a_question\header_php.157 php: for reference/comparison only.
+
+\includes\modules\pages\ask_a_question\header_php.php: makes name and email sticky form fields
+
+\includes\modules\pages\contact_us\header_php.157 php: for reference/comparison only
+
+\includes\modules\pages\contact_us\header_php.php: makes name and email sticky form fields
+
+\includes\modules\pages\product_reviews_write\header_php.157 php: for reference/comparison only.
+
+\includes\modules\pages\product_reviews_write\header_php.php: makes rating and review text sticky with template changes
+
+\includes\templates\YOUR_TEMPLATE\etc
+
+Rename YOUR_TEMPLATE to your template name, compare and merge.
+
+2. The code snippet that generates the Captcha html is in the template files.
 ````
-<?php echo recaptcha_get_html(false, 'light', 'normal', 'margin:5px'); // Google reCAPTCHA ?>
+<?php //plugin Google reCaptcha
+echo recaptcha_get_html(false, 'light', 'normal', 'margin:5px');
+//eof plugin Google reCaptcha ?>
 ````
 This reCaptcha function call has four optional parameters, all four in the above example can be omitted (“margin:5px” is not a default style).
 a)	Wrap in a fieldset? false / true. Default is false.
@@ -46,22 +69,10 @@ Eg:
 ````
 <?php echo recaptcha_get_html(true, 'dark', 'compact'); // displays a dark, compact (square) reCAPTCHA surrounded by a fieldset ?>
 ````
-Insert the code in these template files as required.
-/includes/templates/YOUR_TEMPLATE/templates/tpl_as_a_question_default.php	
-/includes/templates/YOUR_TEMPLATE/templates/tpl_contact_us_default.php
-/includes/templates/YOUR_TEMPLATE/templates/tpl_modules_create_account.php
-/includes/templates/YOUR_TEMPLATE/templates/tpl_product_reviews_write_default.php
 
-Place it next to the submit button.
-eg:
-````</fieldset>
-<?php echo recaptcha_get_html(false, 'light', 'normal', 'margin:5px'); // Google reCaptcha ?>
-<div class="buttonRow forward"><?php echo zen_image_submit(BUTTON_IMAGE_SEND, BUTTON_SEND_ALT); ?></div> `
-````
-
-3. By default, the reCAPTCHA is disabled on all pages: you need to enable each page in
-
+3. By default, the reCAPTCHA is **disabled** on all pages: you need to enable each page in
 /includes/functions/extra_functions/functions_google_recaptcha.php
+
 
 4. An API key pair is required from Google are required to use the reCAPTCHA.
 
@@ -73,7 +84,9 @@ A key pair is linked to a specific domain.
 You may generate pairs for your production server, local server, development server…etc. All can be placed in the array in the functions file, so the correct pair will be automatically used for the correct domain. This allows testing in different environments (with different php restrictions) without needing to change the pair definitions.
 
 5. Open the functions file for editing: 
+
 /includes/functions/extra_functions/functions_google_recaptcha.php 
+
 Paste the domain name, site and private keys where indicated, and enable the pages where you wish the reCAPTCHA to be used.
  The reCAPTCHA should work with no further configuration necessary.
 
@@ -88,7 +101,8 @@ b)	PHP environment does not have 'fsockopen' available. The code will drop to an
 Post problems in the relevant thread on the Zen Cart Forums - http://www.zen-cart.com/showthread.php?198357-Support-Thread-for-Google-reCAPTCHA 
 
 ## Version History
-3.5 Apr 2021 (torvista) – Updated with Google reCAPTCHA library 1.24
+3.6 May 2021 torvista - added template examples, sticky form fields, fix for reCaptcha not displaying when split login in use
+3.5 Apr 2021 torvista – Updated with Google reCAPTCHA library 1.24
 
 Custom code for Zen Cart removed from Google reCAPTCHA Library so it is a pure drop-in library.
 
@@ -101,7 +115,6 @@ Added options to enable/disable reCaptcha use per page: set in functions file.
 Added checks for 'allow_url_fopen' and fsockopen being disabled, to automatically use alternative response methods.
 
 Removed obsolete template files.
-
 
 3.4 Apr 2019 - Updated to auto-disable if missing $publickey. Also included v139 files for convenience.
 
