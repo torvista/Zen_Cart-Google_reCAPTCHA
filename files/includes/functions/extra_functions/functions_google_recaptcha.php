@@ -61,7 +61,8 @@ function recaptcha_get_html($fieldset = false, $theme = 'light', $size = 'normal
     } elseif ($recaptcha_html==='') {
         //structure of html output: <fieldset><script></script><div></div></fieldset>
         $lang = '?hl=' . (in_array($_SESSION['languages_code'], $reCaptcha_languages, true) ? $_SESSION['languages_code']:'en');
-        $recaptcha_html = '<script src="https://www.google.com/recaptcha/api.js' . $lang . '" async defer></script>' . "\n";
+        //$recaptcha_html = '<script src="https://www.google.com/recaptcha/api.js' . $lang . '" async defer></script>' . "\n";//not working if www.google.com blocked
+        $recaptcha_html = '<script src="https://www.recaptcha.net/recaptcha/api.js' . $lang . '" async defer></script>' . "\n";
         $parameters = '<div class="g-recaptcha" data-sitekey="' . $sitekey . '"';
         if ($theme!=='light') { // default is light
             $parameters .= ' data-theme="dark"';
