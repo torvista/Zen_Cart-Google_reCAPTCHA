@@ -48,7 +48,7 @@ function recaptcha_get_html($fieldset = false, $theme = 'light', $size = 'normal
     switch (true) {
         case ($current_page_base==='ask_a_question' && GOOGLE_RECAPCHTA_ASK_QUESTION==='true'):
         case ($current_page_base==='contact_us' && GOOGLE_RECAPCHTA_CONTACT_US==='true'):
-        case ($current_page_base==='create_account' && GOOGLE_RECAPCHTA_CREATE_ACCOUNT==='true'):
+        case (((USE_SPLIT_LOGIN_MODE === 'True' && $current_page_base==='create_account') || (USE_SPLIT_LOGIN_MODE === 'False' && $current_page_base==='login')) && GOOGLE_RECAPCHTA_CREATE_ACCOUNT==='true'):
         case ($current_page_base==='product_reviews_write' && GOOGLE_RECAPCHTA_REVIEWS==='true'):
             $recaptcha_html = '';
             break;
