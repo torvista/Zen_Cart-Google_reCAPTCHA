@@ -1,4 +1,4 @@
-<?php //with additions by David Allen for Zen Cart. reCaptcha v1.2.4
+<?php
 /**
  * This is a PHP library that handles calling reCAPTCHA.
  *
@@ -39,7 +39,6 @@ namespace ReCaptcha;
  */
 class Response
 {
-
     /**
      * Success or failure.
      * @var boolean
@@ -216,33 +215,4 @@ class Response
             'error-codes' => $this->getErrorCodes(),
         );
     }
-
-    /**Added by David Allen for Zen Cart. Replaces Google error messages with language constants for display by messageStack
-     * @return string
-     *//*
-    public function getErrors(): string {
-        $errorArray = array();
-        $errors = $this->getErrorCodes();
-
-        if (\in_array('missing-input-secret', $errors, true)) {
-            $errorArray[] = RECAPTCHA_MISSING_INPUT_SECRET;
-        }
-        if (\in_array('invalid-input-secret', $errors, true)) {
-            $errorArray[] = RECAPTCHA_INVALID_INPUT_SECRET;
-        }
-        if (\in_array('missing-input-response', $errors, true)) {
-            $errorArray[] = RECAPTCHA_MISSING_INPUT_RESPONSE;
-        }
-        if (\in_array('invalid-input-response', $errors, true)) {
-            $errorArray[] = RECAPTCHA_INVALID_INPUT_RESPONSE;
-        }
-        if (\in_array('bad-request', $errors, true)) {
-            $errorArray[] = RECAPTCHA_BAD_REQUEST;
-        }
-        if (\in_array('timeout-or-duplicate', $errors, true)) {
-            $errorArray[] = RECAPTCHA_TIMEOUT_OR_DUPLICATE;
-        }
-
-        return implode(', ', $errorArray);
-    }*/
 }
