@@ -14,10 +14,10 @@
 // $reCaptchaKeys [] = ['domain' => 'www.yourdevsite.com', 'sitekey' => 'ENTER_YOUR_DEVSITE_KEY_HERE', 'privatekey' => 'ENTER_YOUR_DEVPRIVATE_KEY_HERE'];
 
 //set to true for the pages on which you wish to enable reCaptcha (don't forget to add the code snippet to the template!)
-const GOOGLE_RECAPCHTA_ASK_QUESTION = 'false';
-const GOOGLE_RECAPCHTA_CONTACT_US = 'false';
-const GOOGLE_RECAPCHTA_CREATE_ACCOUNT = 'false';
-const GOOGLE_RECAPCHTA_REVIEWS = 'false';
+define('GOOGLE_RECAPCHTA_ASK_QUESTION', 'true');
+define('GOOGLE_RECAPCHTA_CONTACT_US', 'true');
+define('GOOGLE_RECAPCHTA_CREATE_ACCOUNT', 'true');
+define('GOOGLE_RECAPCHTA_REVIEWS', 'true');
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -28,7 +28,11 @@ foreach ($reCaptchaKeys as $reCaptchaKey) {
         break;
     }
 }
-
+/*debugging
+echo 'allow_url_fopen=' . ini_get('allow_url_fopen') . '<br>';
+echo 'fsockopen=' . function_exists('fsockopen') . '<br>';
+echo 'domain=' . $reCaptchaKey['domain'];
+*/
 /**
  * Creates the challenge HTML.
  * This is called from the browser, and the resulting reCAPTCHA HTML widget
@@ -44,13 +48,13 @@ function recaptcha_get_html($fieldset = false, $theme = 'light', $size = 'normal
 
 // supported languages updated 4/4/2021: https://developers.google.com/recaptcha/docs/language
     $reCaptcha_languages = ['af', 'am', 'ar', 'az', 'bg', 'bn', 'ca', 'cs', 'da', 'de', 'de-AT', 'de-CH', 'el', 'en', 'en-GB', 'es', 'es-419', 'et', 'eu', 'fa', 'fi', 'fil', 'fr', 'fr-CA', 'gl', 'gu', 'hi', 'hr', 'hu', 'hy', 'id', 'is', 'it', 'iw', 'ja', 'ka', 'kn', 'ko', 'lo', 'lt', 'lv', 'ml', 'mn', 'mr', 'ms', 'nl', 'no', 'pl', 'pt', 'pt-BR', 'pt-PT', 'ro', 'ru', 'si', 'sk', 'sl', 'sr', 'sv', 'sw', 'ta', 'te', 'th', 'tr', 'uk', 'ur', 'vi', 'zh-CN', 'zh-HK', 'zh-TW', 'zu'];
+    $recaptcha_html = '';
 
     switch (true) {
         case ($current_page_base==='ask_a_question' && GOOGLE_RECAPCHTA_ASK_QUESTION==='true'):
         case ($current_page_base==='contact_us' && GOOGLE_RECAPCHTA_CONTACT_US==='true'):
         case (((USE_SPLIT_LOGIN_MODE === 'True' && $current_page_base==='create_account') || (USE_SPLIT_LOGIN_MODE === 'False' && $current_page_base==='login')) && GOOGLE_RECAPCHTA_CREATE_ACCOUNT==='true'):
         case ($current_page_base==='product_reviews_write' && GOOGLE_RECAPCHTA_REVIEWS==='true'):
-            $recaptcha_html = '';
             break;
         default:
             $recaptcha_html = '<!-- reCaptcha disabled for this page: ' . $current_page_base . ' -->';
