@@ -102,6 +102,7 @@ Post problems in the relevant thread on the Zen Cart Forums - http://www.zen-car
 
 ## Version History
 3.6 May 2021 torvista - added template examples, sticky form fields, fix for reCaptcha not displaying when split login in use
+
 3.5 Apr 2021 torvista – Updated with Google reCAPTCHA library 1.24
 
 Custom code for Zen Cart removed from Google reCAPTCHA Library so it is a pure drop-in library.
