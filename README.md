@@ -8,47 +8,58 @@ This Plugin provides Google reCAPTCHA functionality (v2/v3), for optional use on
 
 1. MERGE the new files to your TEST server. Some are new, some are core edits, some are template overrides. DO NOT BLINDLY COPY THE FILES!
 
-/includes/autoloaders/config.google_recaptcha.php: Loads the observer. Only required for versions of Zen Cart PRIOR to 1.53. From 1.53 onwards it is unused/may be deleted.
+**/includes/autoloaders/config.google_recaptcha.php**
 
-/includes/classes/observers/auto.google_recaptcha_observer.php: watches the relevant page(s) with contact forms. This file autoloads from Zen Cart 1.53 onwards.
+Loads the observer. Only required for versions of Zen Cart PRIOR to 1.53. From 1.53 onwards it is unused/may be deleted as the observer is auto-loaded.
 
-/includes/functions/extra_functions/functions_google_recaptcha.php: **this file MUST be modified by the user to add the Google Site and Private keys and also to enable/disable the captcha on individual pages.**
+**/includes/classes/observers/auto.google_recaptcha_observer.php**
 
-/includes/languages/english/extra_definitions/reCaptcha.php: define error message texts for when the captcha is not validated. Note that the text shown on the reCAPTCHA itself is Google-generated.
+Observer that watches the relevant page(s) that have contact forms.
+
+**/includes/functions/extra_functions/functions_google_recaptcha.php**
+
+This file **MUST** be modified by the user to add the website address (www.yoursite.whatever),  the Google Site key and Private key and also to enable/disable the use of the reCaptcha on individual pages.  
+The details of this process are described below.
+
+**/includes/languages/english/extra_definitions/reCaptcha.php**
+
+The definitions of the error message texts shown when the captcha is not validated. Note that the text shown on the reCAPTCHA itself is Google-generated.
 
 The following set of files come directly from the Google reCAPTCHA library on GitHub: https://github.com/google/recaptcha
-
 The current version is tag v1.2.4 (newer versions may be available).
-
-All files are unmodified from /src 
-
-/includes/classes/observers/google/autoload.php
-/includes/classes/observers/google/ReCaptcha/ReCaptcha.php
-/includes/classes/observers/google/ReCaptcha/RequestMethod.php
-/includes/classes/observers/google/ReCaptcha/RequestParameters.php
-/includes/classes/observers/google/ReCaptcha/Response.php
-/includes/classes/observers/google/ReCaptcha/RequestMethod/Curl.php
-/includes/classes/observers/google/ReCaptcha/RequestMethod/CurlPost.php
-/includes/classes/observers/google/ReCaptcha/RequestMethod/Post.php
-/includes/classes/observers/google/ReCaptcha/RequestMethod/Socket.php
+All files are unmodified from the folder /src.  
+/includes/classes/observers/google/autoload.php  
+/includes/classes/observers/google/ReCaptcha/ReCaptcha.php  
+/includes/classes/observers/google/ReCaptcha/RequestMethod.php  
+/includes/classes/observers/google/ReCaptcha/RequestParameters.php  
+/includes/classes/observers/google/ReCaptcha/Response.php  
+/includes/classes/observers/google/ReCaptcha/RequestMethod/Curl.php  
+/includes/classes/observers/google/ReCaptcha/RequestMethod/CurlPost.php    
+/includes/classes/observers/google/ReCaptcha/RequestMethod/Post.php  
+/includes/classes/observers/google/ReCaptcha/RequestMethod/Socket.php  
 /includes/classes/observers/google/ReCaptcha/RequestMethod/SocketPost.php
 
 Where core files are modified, I include the original for easy comparison/reference, suffixed .157 php. You do not need these, but personally I leave them in my site to make it very obvious when a core file has been modified.
 
-\includes\modules\pages\ask_a_question\header_php.157 php: for reference/comparison only.
+**\includes\modules\pages\ask_a_question\header_php.157 php**  
+For reference/comparison only.
 
-\includes\modules\pages\ask_a_question\header_php.php: makes name and email sticky form fields
+**\includes\modules\pages\ask_a_question\header_php.php**  
+Makes the name and email fields "sticky" so the content is re/displayed after a failed captcha validation.
 
-\includes\modules\pages\contact_us\header_php.157 php: for reference/comparison only
+**\includes\modules\pages\contact_us\header_php.157 php**  
+For reference/comparison only
 
-\includes\modules\pages\contact_us\header_php.php: makes name and email sticky form fields
+**\includes\modules\pages\contact_us\header_php.php**  
+Makes the name and email fields "sticky" so the content is re/displayed after a failed captcha validation.
 
-\includes\modules\pages\product_reviews_write\header_php.157 php: for reference/comparison only.
+**\includes\modules\pages\product_reviews_write\header_php.157 php**  
+For reference/comparison only.
 
-\includes\modules\pages\product_reviews_write\header_php.php: makes rating and review text sticky with template changes
+**\includes\modules\pages\product_reviews_write\header_php.php**  
+Makes rating and review text sticky.
 
-\includes\templates\YOUR_TEMPLATE\etc
-
+**files in \includes\templates\YOUR_TEMPLATE\etc**  
 Rename YOUR_TEMPLATE to your template name, compare and merge.
 
 2. The code snippet that generates the Captcha html is in the template files.
@@ -78,16 +89,16 @@ Eg:
 
 Go to
 https://www.google.com/recaptcha/admin/create 
-and create the Google reCAPTCHA keys for your domain.
-Copy and save the two keys somewhere.
-A key pair is linked to a specific domain.
-You may generate pairs for your production server, local server, development server…etc. All can be placed in the array in the functions file, so the correct pair will be automatically used for the correct domain. This allows testing in different environments (with different php restrictions) without needing to change the pair definitions.
+and create the Google reCAPTCHA keys for your domain. A key pair is linked to a specific domain.  Copy and save the two keys somewhere.
+
+You may generate pairs for your production server, local server, development server…etc.  
+All can be placed in the array in the functions file, so the correct pair will be automatically used for the correct domain. This allows testing in different environments without needing to change the pair definitions and keeping the file identical on all the sites.
 
 5. Open the functions file for editing: 
 
-/includes/functions/extra_functions/functions_google_recaptcha.php 
+**/includes/functions/extra_functions/functions_google_recaptcha.php** 
 
-Paste the domain name, site and private keys where indicated, and enable the pages where you wish the reCAPTCHA to be used.
+Paste the domain name, site and private keys where indicated, and set to 'true' the pages where you wish the reCAPTCHA to be used.
  The reCAPTCHA should work with no further configuration necessary.
 
 ## Language
