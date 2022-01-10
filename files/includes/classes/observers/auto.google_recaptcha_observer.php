@@ -30,7 +30,7 @@ class zcObserverGoogleRecaptchaObserver extends base {
      * @param array $paramsArray
      * @return bool|string
      */
-    public function update(&$class, $eventID, $paramsArray = array()) {
+    public function update(&$class, $eventID, $paramsArray = []) {
         global $messageStack, $error, $privatekey; //$error is used by template header to send or reject form.
 
         require_once __DIR__ . '/google/autoload.php';
@@ -51,7 +51,7 @@ class zcObserverGoogleRecaptchaObserver extends base {
                 $recaptcha = new \ReCaptcha\ReCaptcha($privatekey);
         }
 
-        $event_array = array('NOTIFY_ASK_A_QUESTION_CAPTCHA_CHECK' => 'contact', 'NOTIFY_CONTACT_US_CAPTCHA_CHECK' => 'contact', 'NOTIFY_CREATE_ACCOUNT_CAPTCHA_CHECK' => 'create_account', 'NOTIFY_REVIEWS_WRITE_CAPTCHA_CHECK' => 'review_text'); // note: Ask a Question does use identifier 'contact' for messageStack
+        $event_array = ['NOTIFY_ASK_A_QUESTION_CAPTCHA_CHECK' => 'contact', 'NOTIFY_CONTACT_US_CAPTCHA_CHECK' => 'contact', 'NOTIFY_CREATE_ACCOUNT_CAPTCHA_CHECK' => 'create_account', 'NOTIFY_REVIEWS_WRITE_CAPTCHA_CHECK' => 'review_text']; // note: Ask a Question does use identifier 'contact' for messageStack
 
 //uncomment for debugging
 //$messageStack->add('contact', 'allow_url_fopen=' . ini_get('allow_url_fopen') . '<br>' . 'fsockopen=' . function_exists('fsockopen') . '<br>' . '$method used=' . $method);
@@ -59,7 +59,7 @@ class zcObserverGoogleRecaptchaObserver extends base {
         if (isset($_POST['g-recaptcha-response'])) {
             $resp = $recaptcha->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
             if (!$resp->isSuccess()) {
-                $errorArray = array();
+                $errorArray = [];
                 $errors = $resp->getErrorCodes();
                 //replace Google error codes with local language strings
                 if (in_array('missing-input-secret', $errors, true)) {

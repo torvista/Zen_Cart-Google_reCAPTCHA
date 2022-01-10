@@ -43,7 +43,7 @@ echo 'domain=' . $reCaptchaKey['domain'];
  * @param string $style Add as css style to the reCaptcha div (optional)
  * @return string - The HTML to be embedded in the form.
  */
-function recaptcha_get_html($fieldset = false, $theme = 'light', $size = 'normal', $style = null): string {
+function recaptcha_get_html($fieldset = false, $theme = 'light', $size = 'normal', $style = null) {
     global $current_page_base, $sitekey;
 
 // supported languages updated 4/4/2021: https://developers.google.com/recaptcha/docs/language
