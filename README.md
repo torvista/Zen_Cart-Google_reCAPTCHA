@@ -4,13 +4,12 @@ Released under the GPL License 2.0.
 
 This Plugin provides Google reCAPTCHA functionality (v2/v3), for optional use on the pages with user-entered forms: Ask A Question, Contact Us, Create Account and Write a Review. It should work for all versions for Zen Cart 1.51 onwards.
 
+## Compatibility
+Tested on Zencart 1.57d/php 7.4.x/8.0.x and Zencart 1.58/php 8.1.x.
+
 ## Installation
 
 1. MERGE the new files to your TEST server. Some are new, some are core edits, some are template overrides. DO NOT BLINDLY COPY THE FILES!
-
-**/includes/autoloaders/config.google_recaptcha.php**
-
-Loads the observer. Only required for versions of Zen Cart PRIOR to 1.53. From 1.53 onwards it is unused/may be deleted as the observer is auto-loaded.
 
 **/includes/classes/observers/auto.google_recaptcha_observer.php**
 
@@ -39,7 +38,8 @@ All files are unmodified from the folder /src.
 /includes/classes/observers/google/ReCaptcha/RequestMethod/Socket.php  
 /includes/classes/observers/google/ReCaptcha/RequestMethod/SocketPost.php
 
-Where core files are modified, I include the original for easy comparison/reference, suffixed .157 php. You do not need these, but personally I leave them in my site to make it very obvious when a core file has been modified.
+Where core files are modified, I rename the original file (suffixed .157 php) so that it is adjacent to the modified file to highlight that there is a modification, and for easy comparison/reference.
+You do not need these/you may delete them/they do no harm/they are useful.
 
 **\includes\modules\pages\ask_a_question\header_php.157 php**  
 For reference/comparison only.
@@ -112,13 +112,13 @@ b)	PHP environment does not have 'fsockopen' available. The code will drop to an
 Post problems in the relevant thread on the Zen Cart Forums - http://www.zen-cart.com/showthread.php?198357-Support-Thread-for-Google-reCAPTCHA 
 
 ## Version History
+3.6 June 2022 torvista - added original template files for comparison, removed unneeded observer loader, updated readme.
+
 3.6 May 2021 torvista - added template examples, sticky form fields, fix for reCaptcha not displaying when split login in use
 
 3.5 Apr 2021 torvista – Updated with Google reCAPTCHA library 1.24
 
 Custom code for Zen Cart removed from Google reCAPTCHA Library so it is a pure drop-in library.
-
-Changed observer to self-loading (removed unneeded autoload file).
 
 Added support for multiple keys pairs: for use on production and testing servers without needing to change the defined key pairs.
 
