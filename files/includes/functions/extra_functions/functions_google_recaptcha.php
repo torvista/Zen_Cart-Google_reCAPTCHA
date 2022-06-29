@@ -10,14 +10,14 @@
 //ENTER YOUR SITE DETAILS HERE
 $reCaptchaKeys[] = ['domain' => 'www.yourdomain.whatever', 'sitekey' => 'ENTER_YOUR_SITE_KEY_HERE', 'privatekey' => 'ENTER_YOUR_PRIVATE_KEY_HERE'];
 
+//You may add more sites and keys to the array of domain/sitekey/privatekey, for example if you want to test on a local and production server: each one needs their own keys from Google. Add them into the next line and uncomment the line.
+// $reCaptchaKeys [] = ['domain' => 'www.yourdevsite.com', 'sitekey' => 'ENTER_YOUR_DEVSITE_KEY_HERE', 'privatekey' => 'ENTER_YOUR_DEVPRIVATE_KEY_HERE'];
+
 //set to true for the pages on which you wish to enable reCaptcha (don't forget to add the code snippet to the template!)
 define('GOOGLE_RECAPCHTA_ASK_QUESTION', 'false');
 define('GOOGLE_RECAPCHTA_CONTACT_US', 'false');
 define('GOOGLE_RECAPCHTA_CREATE_ACCOUNT', 'false');
 define('GOOGLE_RECAPCHTA_REVIEWS', 'false');
-
-//You may add more sites and keys to the array of domain/sitekey/privatekey, for example if you want to use the same code on a local and production server: each one needs their own keys from Google. Add them into the next line and uncomment the line.
-// $reCaptchaKeys [] = ['domain' => 'www.yourdevsite.com', 'sitekey' => 'ENTER_YOUR_DEVSITE_KEY_HERE', 'privatekey' => 'ENTER_YOUR_DEVPRIVATE_KEY_HERE'];
 
 //DO NOT EDIT ANYTHING BELOW THIS LINE!!
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
