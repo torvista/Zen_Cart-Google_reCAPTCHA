@@ -81,6 +81,7 @@
 <?php //plugin Google reCaptcha
 echo recaptcha_get_html(false, 'light', 'normal', 'margin:5px');
 //eof plugin Google reCaptcha ?>
+
 <div class="buttonRow forward"><?php echo zen_image_submit(BUTTON_IMAGE_SEND, BUTTON_SEND_ALT); ?></div>
 <div class="buttonRow back"><?php echo zen_back_link() . zen_image_button(BUTTON_IMAGE_BACK, BUTTON_BACK_ALT) . '</a>'; ?></div>
 <?php

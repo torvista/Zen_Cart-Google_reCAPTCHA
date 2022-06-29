@@ -115,11 +115,12 @@ if (ENABLE_SSL == 'true' && $request_type != 'SSL') {
     zen_redirect(zen_href_link(FILENAME_CONTACT_US, '', 'SSL'));
 }
 
-//ZC158
+//plugin Google reCaptcha (ZC158)
 //$email_address = '';
 //$name = '';
 $name = $name ?? '';
 $email_address = $email_address ?? '';
+//eof plugin Google reCaptcha (ZC158)
 
 // default email and name if customer is logged in
 if (zen_is_logged_in()) {

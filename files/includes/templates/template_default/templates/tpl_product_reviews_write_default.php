@@ -71,6 +71,7 @@
 <?php //plugin Google reCaptcha
 echo recaptcha_get_html(false, 'light', 'normal', 'margin:5px');
 //eof plugin Google reCaptcha ?>
+
     <div class="buttonRow forward"><?php echo zen_image_submit(BUTTON_IMAGE_SUBMIT, BUTTON_SUBMIT_ALT); ?></div>
 <br class="clearBoth" />
 

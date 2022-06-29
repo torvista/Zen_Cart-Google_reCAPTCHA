@@ -183,10 +183,11 @@
 <?php echo zen_draw_radio_field('email_format', 'HTML', ($email_format == 'HTML' ? true : false),'id="email-format-html"') . '<label class="radioButtonLabel" for="email-format-html">' . ENTRY_EMAIL_HTML_DISPLAY . '</label>' .  zen_draw_radio_field('email_format', 'TEXT', ($email_format == 'TEXT' ? true : false), 'id="email-format-text"') . '<label class="radioButtonLabel" for="email-format-text">' . ENTRY_EMAIL_TEXT_DISPLAY . '</label>'; ?>
 <br class="clearBoth" />
 </fieldset>
-<?php //plugin Google reCaptcha
-echo recaptcha_get_html(false, 'light', 'normal', 'margin:5px');
-//eof plugin Google reCaptcha ?>
+
 <?php
+//plugin Google reCaptcha
+echo recaptcha_get_html(false, 'light', 'normal', 'margin:5px');
+//eof plugin Google reCaptcha
   if (CUSTOMERS_REFERRAL_STATUS == 2) {
 ?>
 <fieldset>

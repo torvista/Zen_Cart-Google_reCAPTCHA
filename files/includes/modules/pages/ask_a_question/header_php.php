@@ -1,4 +1,4 @@
-<?php //steve modified for products model
+<?php //plugin Google reCaptcha: sticky form fields uses ZC158 code
 /**
  * Ask a Question Page (based on Contact Us Page)
  *
@@ -108,9 +108,8 @@ if (isset($_GET['action']) && ($_GET['action'] == 'send')) {
             $text_message = OFFICE_FROM . "\t" . $name . "\n" .
             OFFICE_EMAIL . "\t" . $email_address . "\n";
             if (!empty($telephone)) $text_message .= OFFICE_LOGIN_PHONE . "\t" . $telephone . "\n";
-//steve added model			
-            $text_message .= TEXT_PRODUCT_NAME . "\t" . $product_details['products_model'] . ' - ' . $product_details['products_name'] . "\n" .
-            zen_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . (int)$_GET['pid']) .
+            $text_message .= TEXT_PRODUCT_NAME . "\t" . $product_details['products_name'] . "\n" .
+            zen_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $pid) .
             "\n";
             $text_message .= "\n" .
             '------------------------------------------------------' . "\n\n" .
@@ -118,15 +117,13 @@ if (isset($_GET['action']) && ($_GET['action'] == 'send')) {
             '------------------------------------------------------' . "\n\n" .
             $extra_info['TEXT'];
             // Prepare HTML-portion of message
-//steve added model
-            $html_msg['EMAIL_MESSAGE_HTML'] = '<b>'.TEXT_PRODUCT_NAME.': </b><a href="' . zen_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . (int)$_GET['pid']) . '">' . $product_details['products_model'] . ' - ' . $product_details['products_name'] . '</a><br>' . strip_tags($_POST['enquiry']);
-            $html_msg['CONTACT_US_OFFICE_FROM'] = OFFICE_FROM . ' ' . $name . '<br>' . OFFICE_EMAIL . '(' . $email_address . ')';
+            $html_msg['EMAIL_MESSAGE_HTML'] = '<b>'.TEXT_PRODUCT_NAME.': </b><a href="' . zen_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $pid) . '">' . $product_details['products_name'] . '</a><br />' . strip_tags($_POST['enquiry']);
+            $html_msg['CONTACT_US_OFFICE_FROM'] = OFFICE_FROM . ' ' . $name . '<br />' . OFFICE_EMAIL . '(' . $email_address . ')';
             $html_msg['EXTRA_INFO'] = $extra_info['HTML'];
             // Send message
-//steve added variables to EMAIL_SUBJECT for product and store name
-            zen_mail($send_to_name, $send_to_email, sprintf(EMAIL_SUBJECT, $product_details['products_model'] . ' - "' . $product_details['products_name'] . '"'), $text_message, $name, $email_address, $html_msg,'ask_a_question');
+            zen_mail($send_to_name, $send_to_email, EMAIL_SUBJECT, $text_message, $name, $email_address, $html_msg,'ask_a_question');
         }
-        zen_redirect(zen_href_link(FILENAME_ASK_A_QUESTION, 'action=success&pid=' . (int)$_GET['pid'], 'SSL'));
+        zen_redirect(zen_href_link(FILENAME_ASK_A_QUESTION, 'action=success&pid=' . $pid, 'SSL'));
     } else {
         $error = true;
         if (empty($name)) {
@@ -146,11 +143,12 @@ if (ENABLE_SSL == 'true' && $request_type != 'SSL') {
     zen_redirect(zen_href_link(FILENAME_ASK_A_QUESTION, zen_get_all_get_params(), 'SSL'));
 }
 
-//ZC158
+//plugin Google reCaptcha (ZC158)
 //$email_address = '';
 //$name = '';
 $name = $name ?? '';
 $email_address = $email_address ?? '';
+//eof plugin Google reCaptcha (ZC158)
 
 // default email and name if customer is logged in
 if (zen_is_logged_in() && !zen_in_guest_checkout()) {
