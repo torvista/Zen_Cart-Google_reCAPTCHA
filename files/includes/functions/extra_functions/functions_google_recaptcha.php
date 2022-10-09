@@ -40,10 +40,11 @@ echo 'domain=' . $reCaptchaKey['domain'];
  * @param bool $fieldset Should the challenge be wrapped in a fieldset (optional, default is false)
  * @param string $theme Should the reCaptcha be shown in light or dark theme (optional, default is light)
  * @param string $size Should the reCaptcha be shown in normal or compact size (optional, default is normal)
- * @param string $style Add as css style to the reCaptcha div (optional)
+ * @param string|null $style Add as css style to the reCaptcha div (optional)
  * @return string - The HTML to be embedded in the form.
  */
-function recaptcha_get_html($fieldset = false, $theme = 'light', $size = 'normal', $style = null) {
+function recaptcha_get_html(bool $fieldset = false, string $theme = 'light', string $size = 'normal', string $style = null): string
+{
     global $current_page_base, $sitekey;
 
 // supported languages updated 4/4/2021: https://developers.google.com/recaptcha/docs/language
