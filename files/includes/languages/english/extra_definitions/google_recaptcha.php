@@ -1,11 +1,13 @@
-<?php //Plugin Google reCaptcha
+<?php
+
 declare(strict_types=1);
 /**
- * @package languageDefines
- * @copyright Copyright 2003-2010 Zen Cart Development Team
- * @copyright Portions Copyright 2003 osCommerce
- * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
+ * Plugin Google reCaptcha
+ * https://github.com/torvista/Zen_Cart-Google_reCAPTCHA
+ * @license https://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
+ * @version $Id: torvista 2022 11 28
  */
+
 /* https://developers.google.com/recaptcha/docs/verify
     invalid-input-secret	The secret parameter is invalid or malformed.
     missing-input-response	The response parameter is missing.
