@@ -1,10 +1,11 @@
-<?php //Plugin Google reCaptcha
+<?php
 
-
+declare(strict_types=1);
 /**
- * @copyright Copyright 2003-2012 Zen Cart Development Team
- * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * Observer class for Google reCaptcha
+ * Plugin Google reCaptcha
+ * https://github.com/torvista/Zen_Cart-Google_reCAPTCHA
+ * @license https://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
+ * @version $Id: torvista 2022 11 28
  */
 class zcObserverGoogleRecaptchaObserver extends base {
     public function __construct() {

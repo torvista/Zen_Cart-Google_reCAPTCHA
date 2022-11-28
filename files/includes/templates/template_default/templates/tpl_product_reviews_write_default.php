@@ -1,23 +1,31 @@
-<?php //plugin Google reCaptcha: sticky rating and review text
+<?php
+
+declare(strict_types=1);
+/**
+ * Plugin Google reCaptcha
+ * https://github.com/torvista/Zen_Cart-Google_reCAPTCHA
+ * @license https://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
+ * @version $Id: torvista 2022 11 28
+ */
 /**
  * Page Template
  *
- * @copyright Copyright 2003-2020 Zen Cart Development Team
+ * @copyright Copyright 2003-2022 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: DrByte 2019 Jul 15 Modified in v1.5.7 $
+ * @version $Id: DrByte 2021 Apr 26 Modified in v1.5.8-alpha $
  */
 ?>
 <div class="centerColumn" id="reviewsWrite">
 <?php echo zen_draw_form('product_reviews_write', zen_href_link(FILENAME_PRODUCT_REVIEWS_WRITE, 'action=process&products_id=' . $_GET['products_id'], 'SSL'), 'post', 'onsubmit="return checkForm(product_reviews_write);"'); ?>
 <!--bof Main Product Image -->
       <?php
-        if (zen_not_null($products_image)) {
+        if (!empty($products_image)) {
     ?>
   <div id="reviewWriteMainImage" class="centeredContent back"><?php
-        	/**
+/**
  * display the main product image
-        	 */
+ */
    require($template->get_template_dir('/tpl_modules_main_product_image.php',DIR_WS_TEMPLATE, $current_page_base,'templates'). '/tpl_modules_main_product_image.php'); ?>
 </div>
 <?php
@@ -38,14 +46,13 @@
 <h2 id="reviewsWritePrice"><?php echo $products_price; ?></h2>
 
 <h3 id="reviewsWriteReviewer" class=""><?php echo SUB_TITLE_FROM, zen_output_string_protected($customer->fields['customers_firstname'] . ' ' . $customer->fields['customers_lastname']); ?></h3>
-<br class="clearBoth" />
+<br class="clearBoth">
 
 <?php if ($messageStack->size('review_text') > 0) echo $messageStack->output('review_text'); ?>
 
 <div id="reviewsWriteReviewsRate" class="center"><?php echo SUB_TITLE_RATING; ?></div>
 
 <div class="ratingRow">
-<?php //plugin Google reCaptcha: added (sticky $rating === x) for checked ?>
 <?php echo zen_draw_radio_field('rating', '1', ($rating === 1), 'id="rating-1"'); ?>
 <?php echo '<label class="" for="rating-1">' . zen_image($template->get_template_dir(OTHER_IMAGE_REVIEWS_RATING_STARS_ONE, DIR_WS_TEMPLATE, $current_page_base,'images'). '/' . OTHER_IMAGE_REVIEWS_RATING_STARS_ONE, OTHER_REVIEWS_RATING_STARS_ONE_ALT) . '</label> '; ?>
 
@@ -60,21 +67,18 @@
 
 <?php echo zen_draw_radio_field('rating', '5', ($rating === 5), 'id="rating-5"'); ?>
 <?php echo '<label class="" for="rating-5">' . zen_image($template->get_template_dir(OTHER_IMAGE_REVIEWS_RATING_STARS_FIVE, DIR_WS_TEMPLATE, $current_page_base,'images'). '/' . OTHER_IMAGE_REVIEWS_RATING_STARS_FIVE, OTHER_REVIEWS_RATING_STARS_FIVE_ALT) . '</label>'; ?>
-<?php //eof plugin Google reCaptcha: added (sticky $rating === x) for checked ?>
 </div>
 
 <label id="textAreaReviews" for="review-text"><?php echo SUB_TITLE_REVIEW; ?></label>
-<?php //plugin Google reCaptcha: added $review_text ?>
 <?php echo zen_draw_textarea_field('review_text', 60, 5, $review_text, 'id="review-text"'); ?>
-<?php //eof plugin Google reCaptcha: added $review_text ?>
 <?php echo zen_draw_input_field($antiSpamFieldName, '', ' size="60" id="RAS" style="visibility:hidden; display:none;" autocomplete="off"'); ?>
 <?php //plugin Google reCaptcha
 echo recaptcha_get_html(false, 'light', 'normal', 'margin:5px');
 //eof plugin Google reCaptcha ?>
 
     <div class="buttonRow forward"><?php echo zen_image_submit(BUTTON_IMAGE_SUBMIT, BUTTON_SUBMIT_ALT); ?></div>
-<br class="clearBoth" />
+<br class="clearBoth">
 
-<div id="reviewsWriteReviewsNotice" class="notice"><?php echo TEXT_NO_HTML . (REVIEWS_APPROVAL == '1' ? '<br />' . TEXT_APPROVAL_REQUIRED: ''); ?></div>
+<div id="reviewsWriteReviewsNotice" class="notice"><?php echo TEXT_NO_HTML . (REVIEWS_APPROVAL == '1' ? '<br>' . TEXT_APPROVAL_REQUIRED: ''); ?></div>
 </form>
 </div>
