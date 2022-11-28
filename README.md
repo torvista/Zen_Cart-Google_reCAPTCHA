@@ -1,11 +1,12 @@
-# Google reCAPTCHA Plugin v3.6 for Zen Cart 1.5x
+# Google reCAPTCHA Plugin v3.7 for Zen Cart 1.5.8
 
 Released under the GPL License 2.0.
 
 This Plugin provides Google reCAPTCHA functionality (v2/v3), for optional use on the pages with user-entered forms: Ask A Question, Contact Us, Create Account and Write a Review. It should work for all versions for Zen Cart 1.51 onwards.
 
 ## Compatibility
-Tested on Zencart 1.57d/php 7.4.x/8.0.x and Zencart 1.58/php 8.1.x.
+For Zen Cart 1.5.8, tested on php 8.1/8.2.  
+For Zen Cart 1.5.7: see https://github.com/torvista/Zen_Cart-Google_reCAPTCHA/releases
 
 ## Installation
 
@@ -38,26 +39,8 @@ All files are unmodified from the folder /src.
 /includes/classes/observers/google/ReCaptcha/RequestMethod/Socket.php  
 /includes/classes/observers/google/ReCaptcha/RequestMethod/SocketPost.php
 
-Where core files are modified, I rename the original file (suffixed .157 php) so that it is adjacent to the modified file to highlight that there is a modification, and for easy comparison/reference.
+Where core files are modified, I rename the original file (suffixed .158 php) so that it is adjacent to the modified file to highlight that there is a modification, and for easy comparison/reference.
 You do not need these/you may delete them/they do no harm/they are useful.
-
-**\includes\modules\pages\ask_a_question\header_php.157 php**  
-For reference/comparison only.
-
-**\includes\modules\pages\ask_a_question\header_php.php**  
-Makes the name and email fields "sticky" so the content is re/displayed after a failed captcha validation.
-
-**\includes\modules\pages\contact_us\header_php.157 php**  
-For reference/comparison only
-
-**\includes\modules\pages\contact_us\header_php.php**  
-Makes the name and email fields "sticky" so the content is re/displayed after a failed captcha validation.
-
-**\includes\modules\pages\product_reviews_write\header_php.157 php**  
-For reference/comparison only.
-
-**\includes\modules\pages\product_reviews_write\header_php.php**  
-Makes rating and review text sticky.
 
 **files in \includes\templates\YOUR_TEMPLATE\etc**  
 Rename YOUR_TEMPLATE to your template name, compare and merge.
@@ -131,6 +114,10 @@ a)	If the PHP environment has 'allow_url_fopen' disabled and so 'file_get_conten
 b)	If the PHP environment does not have 'fsockopen' available. The code will drop to an alternative method using cURL.
 
 ## Version History
+3.7 Nov 2022 torvista - Removed unnecessary header files for ZC158
+
+3.6 Released as final version for Zen Cart 1.5.7
+
 3.6 Oct 2022 torvista - Updated Readme for Content-Security-Policy. Added parameters type casting.
 
 3.6 June 2022 torvista - added original template files for comparison, removed unneeded observer loader, updated readme.
