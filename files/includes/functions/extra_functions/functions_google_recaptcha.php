@@ -22,6 +22,7 @@ define('GOOGLE_RECAPCHTA_ASK_QUESTION', 'false');
 define('GOOGLE_RECAPCHTA_CONTACT_US', 'false');
 define('GOOGLE_RECAPCHTA_CREATE_ACCOUNT', 'false');
 define('GOOGLE_RECAPCHTA_REVIEWS', 'false');
+define('GOOGLE_RECAPCHTA_BISN', 'false'); //Back In Stock Notification Plugin: https://github.com/torvista/Zen_Cart-Back_in_Stock_Notifications
 
 //DO NOT EDIT ANYTHING BELOW THIS LINE!!
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -60,6 +61,8 @@ function recaptcha_get_html(bool $fieldset = false, string $theme = 'light', str
         case ($current_page_base==='contact_us' && GOOGLE_RECAPCHTA_CONTACT_US==='true'):
         case (((USE_SPLIT_LOGIN_MODE === 'True' && $current_page_base==='create_account') || (USE_SPLIT_LOGIN_MODE === 'False' && $current_page_base==='login')) && GOOGLE_RECAPCHTA_CREATE_ACCOUNT==='true'):
         case ($current_page_base==='product_reviews_write' && GOOGLE_RECAPCHTA_REVIEWS==='true'):
+        //BISN
+        case ($current_page_base==='product_info' && GOOGLE_RECAPCHTA_BISN==='true'):
             break;
         default:
             $recaptcha_html = '<!-- reCaptcha disabled for this page: ' . $current_page_base . ' -->';
