@@ -90,47 +90,7 @@ The error messages are defined in the plugin language file.
 
 ## Back In Stock Notifications Plugin
 https://github.com/torvista/Zen_Cart-Back_in_Stock_Notifications
-
-To add the reCaptcha to the BISN subscribe form, it is more complex as this currently uses it's own templating system, so two files need to be edited.
-If you have customised versions in YOUR_TEMPLATE, remember to edit those and not the default ones.
-
-1. includes\templates\YOUR_TEMPLATE\templates\inc.html.back_in_stock_notifications.html
-````
-<label class="inputLabel" for="email_confirmation"><ceon:variable name="email_confirmation_label">Confirm E-mail</ceon:variable>:</label>
-<input type="text" size="35" maxlength="96" name="cofnospam" id="email_confirmation" value="{ceon:cofnospam}" />
-<br class="clearBoth" /><br>
-</fieldset>
-````
-Add the reference to the reCaptcha.
-````
-<label class="inputLabel" for="email_confirmation"><ceon:variable name="email_confirmation_label">Confirm E-mail</ceon:variable>:</label>
-<input type="text" size="35" maxlength="96" name="cofnospam" id="email_confirmation" value="{ceon:cofnospam}" />
-<br class="clearBoth" /><br>
-<p><ceon:variable name="reCaptcha">Google reCaptcha</ceon:variable></p>
-</fieldset>
-````
-2. includes\templates\YOUR_TEMPLATE\templates\tpl_product_info_display.php
-````
-$back_in_stock_notification_form->setVariable('email', $back_in_stock_notification_form_customer_email);
-$back_in_stock_notification_form->setVariable('cofnospam', $back_in_stock_notification_form_customer_email_confirmation);
-print $back_in_stock_notification_form->getXHTMLSource();
-````
-Add the reference to the reCaptcha.
-````
-$back_in_stock_notification_form->setVariable('email', $back_in_stock_notification_form_customer_email);
-$back_in_stock_notification_form->setVariable('cofnospam', $back_in_stock_notification_form_customer_email_confirmation);
-//Google reCaptcha
-$reCaptcha = recaptcha_get_html(false, 'light', 'normal', 'margin:5px');
-$back_in_stock_notification_form->setVariable('reCaptcha', $reCaptcha);
-//eof
-print $back_in_stock_notification_form->getXHTMLSource();
-````
-3. includes\functions\extra_functions\functions_google_recaptcha.php
-
-Set the relevant constant to true:
-````
-define('GOOGLE_RECAPCHTA_BISN', 'true');
-````
+01/20/2024: support for Recaptcha is now built-in.
 
 ## Problems
 a) Triple-check your installation and re-read the documentation.
@@ -158,7 +118,9 @@ a)	If the PHP environment has 'allow_url_fopen' disabled and so 'file_get_conten
 b)	If the PHP environment does not have 'fsockopen' available. The code will drop to an alternative method using cURL.
 
 ## Changelog
-2023 August torvista - update the Google reCpatcha source to tag 1.3.0.  Add support for Back In Stock Notifications.
+2024 01 20: torvista - Reviewed and reworked support for Back in Stock Notifications. Multiple minor fettling.
+
+2023 August torvista - update the Google reCaptcha source to tag 1.3.0.  Add support for Back In Stock Notifications.
 
 3.7 Nov 2022 torvista - Removed unnecessary header files for ZC158
 

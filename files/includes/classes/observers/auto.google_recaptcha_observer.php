@@ -5,21 +5,24 @@ declare(strict_types=1);
  * Plugin Google reCaptcha
  * https://github.com/torvista/Zen_Cart-Google_reCAPTCHA
  * @license https://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: torvista 2022 11 28
+ * @version $Id: torvista 2024 01 20
  */
 class zcObserverGoogleRecaptchaObserver extends base {
     public function __construct() {
         $pages_to_check = [];
-        if (defined('GOOGLE_RECAPCHTA_ASK_QUESTION') && GOOGLE_RECAPCHTA_ASK_QUESTION==='true') {
+        if (defined('GOOGLE_RECAPTCHA_ASK_QUESTION') && GOOGLE_RECAPTCHA_ASK_QUESTION==='true') {
             $pages_to_check[] = 'NOTIFY_ASK_A_QUESTION_CAPTCHA_CHECK';
         }
-        if (defined('GOOGLE_RECAPCHTA_CONTACT_US') && GOOGLE_RECAPCHTA_CONTACT_US==='true') {
+        if (defined('GOOGLE_RECAPTCHA_BISN_SUBSCRIBE') && GOOGLE_RECAPTCHA_BISN_SUBSCRIBE==='true') {
+            $pages_to_check[] = 'NOTIFY_BISN_SUBSCRIBE_CAPTCHA_CHECK';
+        }
+        if (defined('GOOGLE_RECAPTCHA_CONTACT_US') && GOOGLE_RECAPTCHA_CONTACT_US==='true') {
             $pages_to_check[] = 'NOTIFY_CONTACT_US_CAPTCHA_CHECK';
         }
-        if (defined('GOOGLE_RECAPCHTA_CREATE_ACCOUNT') && GOOGLE_RECAPCHTA_CREATE_ACCOUNT==='true') {
+        if (defined('GOOGLE_RECAPTCHA_CREATE_ACCOUNT') && GOOGLE_RECAPTCHA_CREATE_ACCOUNT==='true') {
             $pages_to_check[] = 'NOTIFY_CREATE_ACCOUNT_CAPTCHA_CHECK';
         }
-        if (defined('GOOGLE_RECAPCHTA_REVIEWS') && GOOGLE_RECAPCHTA_REVIEWS==='true') {
+        if (defined('GOOGLE_RECAPTCHA_REVIEWS') && GOOGLE_RECAPTCHA_REVIEWS==='true') {
             $pages_to_check[] = 'NOTIFY_REVIEWS_WRITE_CAPTCHA_CHECK';
         }
         if (count($pages_to_check) > 0) $this->attach($this, $pages_to_check);
@@ -32,7 +35,7 @@ class zcObserverGoogleRecaptchaObserver extends base {
      * @return bool|string
      */
     public function update(&$class, $eventID, $paramsArray = []) {
-        global $messageStack, $error, $privatekey; //$error is used by template header to send or reject form.
+        global $messageStack, $error, $privatekey; //"$error" needs to be checked in page header after executing the notifier to send/accept or reject form.
 
         require_once __DIR__ . '/google/autoload.php';
 
@@ -51,8 +54,14 @@ class zcObserverGoogleRecaptchaObserver extends base {
                 $method = 'default';
                 $recaptcha = new \ReCaptcha\ReCaptcha($privatekey);
         }
-
-        $event_array = ['NOTIFY_ASK_A_QUESTION_CAPTCHA_CHECK' => 'contact', 'NOTIFY_CONTACT_US_CAPTCHA_CHECK' => 'contact', 'NOTIFY_CREATE_ACCOUNT_CAPTCHA_CHECK' => 'create_account', 'NOTIFY_REVIEWS_WRITE_CAPTCHA_CHECK' => 'review_text']; // note: Ask a Question does use identifier 'contact' for messageStack
+        // pages have a specific identifier so messageStack outputs any error message only on the page that was submitted
+        $event_array = [
+            'NOTIFY_ASK_A_QUESTION_CAPTCHA_CHECK' => 'contact',  // note: Ask a Question DOES use identifier 'contact' for messageStack:https://github.com/zencart/zencart/issues/6143
+            'NOTIFY_CONTACT_US_CAPTCHA_CHECK' => 'contact',
+            'NOTIFY_CREATE_ACCOUNT_CAPTCHA_CHECK' => 'create_account',
+            'NOTIFY_BISN_SUBSCRIBE_CAPTCHA_CHECK' => 'bisn_subscribe',
+            'NOTIFY_REVIEWS_WRITE_CAPTCHA_CHECK' => 'review_text'
+        ];
 
 //uncomment for debugging
 //$messageStack->add('contact', 'allow_url_fopen=' . ini_get('allow_url_fopen') . '<br>' . 'fsockopen=' . function_exists('fsockopen') . '<br>' . '$method used=' . $method);
@@ -84,6 +93,8 @@ class zcObserverGoogleRecaptchaObserver extends base {
                 $error_messages = implode(', ', $errorArray);
                 $messageStack->add($event_array[$eventID], $error_messages);
                 $error = true;
+            } else {
+                $error = false;
             }
         } else {
             $messageStack->add($event_array[$eventID], RECAPTCHA_MISSING_INPUT_RESPONSE);

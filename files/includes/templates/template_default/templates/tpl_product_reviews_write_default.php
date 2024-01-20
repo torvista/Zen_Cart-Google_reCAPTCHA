@@ -5,7 +5,7 @@ declare(strict_types=1);
  * Plugin Google reCaptcha
  * https://github.com/torvista/Zen_Cart-Google_reCAPTCHA
  * @license https://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: torvista 2022 11 28
+ * @version $Id: torvista 2024 01 20
  */
 /**
  * Page Template

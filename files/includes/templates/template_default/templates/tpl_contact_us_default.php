@@ -5,7 +5,7 @@ declare(strict_types=1);
  * Plugin Google reCaptcha
  * https://github.com/torvista/Zen_Cart-Google_reCAPTCHA
  * @license https://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: torvista 2022 11 28
+ * @version $Id: torvista 2024 01 20
  */
 /**
  * Page Template
@@ -24,7 +24,7 @@ declare(strict_types=1);
 <?php echo zen_draw_form('contact_us', zen_href_link(FILENAME_CONTACT_US, 'action=send', 'SSL')); ?>
 
 <?php if (CONTACT_US_STORE_NAME_ADDRESS== '1') { ?>
-<address><?php echo nl2br(STORE_NAME_ADDRESS); ?></address>
+<address><?php echo nl2br(STORE_NAME_ADDRESS, false); ?></address>
 <?php } ?>
 
 <?php
