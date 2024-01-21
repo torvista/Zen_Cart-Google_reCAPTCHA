@@ -117,6 +117,12 @@ d) If your still cannot get it to work, post in the relevant thread on the Zen C
 a)	If the PHP environment has 'allow_url_fopen' disabled and so 'file_get_contents' does not work. The code will drop to an alternative method using fsockopen.
 b)	If the PHP environment does not have 'fsockopen' available. The code will drop to an alternative method using cURL.
 
+## How it Works
+The template file requests the recaptcha html, generated from the recaptcha_get_html function.  
+When the user submits the form, there is a POST with the recaptcha data. The header of the file uses a notifier to send that to the recaptcha observer, which validates it.  
+On success, global $error is false subsequent to the notifier.  
+On failure, global $error contains error message(s). Depending on the page, these are output by messageStack or in the case of BISN, outputted via the XHTML variable-substitution template.
+
 ## Changelog
 2024 01 20: torvista - Reviewed and reworked support for Back in Stock Notifications. Multiple minor fettling.
 
