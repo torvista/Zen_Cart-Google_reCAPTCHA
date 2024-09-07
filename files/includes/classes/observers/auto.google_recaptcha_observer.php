@@ -5,7 +5,7 @@ declare(strict_types=1);
  * Plugin Google reCaptcha
  * https://github.com/torvista/Zen_Cart-Google_reCAPTCHA
  * @license https://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: torvista 2024 01 20
+ * @version $Id: torvista 05 September 2024
  */
 class zcObserverGoogleRecaptchaObserver extends base {
     public function __construct() {
@@ -31,11 +31,12 @@ class zcObserverGoogleRecaptchaObserver extends base {
     /**
      * @param $class
      * @param $eventID
-     * @param array $paramsArray
-     * @return bool|string
+     * @param  array  $paramsArray
+     * @return bool
      */
-    public function update(&$class, $eventID, $paramsArray = []) {
-        global $messageStack, $error, $privatekey; //"$error" needs to be checked in page header after executing the notifier to send/accept or reject form.
+    public function update(&$class, $eventID, array $paramsArray = []): bool
+    {
+        global $messageStack, $error, $privatekey; //"$error" needs to be checked in the page header after executing the notifier to send/accept or reject form.
 
         require_once __DIR__ . '/google/autoload.php';
 
@@ -56,7 +57,7 @@ class zcObserverGoogleRecaptchaObserver extends base {
         }
         // pages have a specific identifier so messageStack outputs any error message only on the page that was submitted
         $event_array = [
-            'NOTIFY_ASK_A_QUESTION_CAPTCHA_CHECK' => 'contact',  // note: Ask a Question DOES use identifier 'contact' for messageStack:https://github.com/zencart/zencart/issues/6143
+            'NOTIFY_ASK_A_QUESTION_CAPTCHA_CHECK' => 'contact',  // note: Ask a Question DOES use identifier 'contact' for messageStack: https://github.com/zencart/zencart/issues/6143
             'NOTIFY_CONTACT_US_CAPTCHA_CHECK' => 'contact',
             'NOTIFY_CREATE_ACCOUNT_CAPTCHA_CHECK' => 'create_account',
             'NOTIFY_BISN_SUBSCRIBE_CAPTCHA_CHECK' => 'bisn_subscribe',
