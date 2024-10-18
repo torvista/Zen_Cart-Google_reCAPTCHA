@@ -1,56 +1,73 @@
-# Google reCAPTCHA Plugin v3.7 for Zen Cart 1.5.8
+# Google reCAPTCHA Plugin v3.8 for Zen Cart
 
 Released under the GPL License 2.0.
 
-This Plugin provides Google reCAPTCHA functionality (v2/v3), for optional use on the pages with user-entered forms: Ask A Question, Contact Us, Create Account and Write a Review. It should work for all versions for Zen Cart 1.51 onwards.
+This Plugin provides Google reCAPTCHA functionality (v2/v3), for optional use on the pages with public forms such as:  
+- Ask A Question
+- Create Account
+- Contact Us
+- Write a Review
+- Back In Stock (plugin)
 
 ## Compatibility
-For Zen Cart 1.5.8, tested on php 8.1/8.2/8.3  
-For Zen Cart 1.5.7: see https://github.com/torvista/Zen_Cart-Google_reCAPTCHA/releases
+
+It should work for all versions for Zen Cart 1.51 onwards. 
+Tested through to Zen Cart 2.1 with php 8.3.
 
 ## Installation
 
-1. MERGE the new files to your TEST server. Some are new, some are core edits, some are template overrides. DO NOT BLINDLY COPY THE FILES!
+1. COPY the new files to your TEST server.
 
-**/includes/classes/observers/auto.google_recaptcha_observer.php**
+`/includes/classes/observers/auto.google_recaptcha_observer.php`
 
-Observer that watches the relevant page(s) that have contact forms.
+Observer that watches the relevant page(s) that have contact forms, to manage the reCaptcha.
 
-**/includes/functions/extra_functions/functions_google_recaptcha.php**
+`/includes/extra_configures/google_recaptcha.php`
 
-This file **MUST** be modified by the user to add the website address (www.yoursite.whatever),  the Google Site key and Private key and also to enable/disable the use of the reCaptcha on individual pages.  
-The details of this process are described below.
+Configuration file that you **MUST** edit, to add the website address (www.yoursite.whatever), the Google Site key and Private key and also to enable/disable the use of the reCaptcha on individual pages.  The details of this process are described below.
 
-**/includes/languages/english/extra_definitions/reCaptcha.php**
+`/includes/functions/extra_functions/functions_google_recaptcha.php`
 
-The definitions of the error message texts shown when the captcha is not validated. Note that the text shown on the reCAPTCHA itself is Google-generated.
+Functions used by the plugin.
+
+`/includes/languages/english/extra_definitions/reCaptcha.php`
+
+The error message texts shown when the captcha is not validated.  
+Note that the text shown on the reCAPTCHA itself is Google-generated.
 
 The following set of files come directly from the Google reCAPTCHA library on GitHub: https://github.com/google/recaptcha
-The current version is tag v1.3.0 (newer versions may be available).
-All files are unmodified from the folder /src.  
-/includes/classes/observers/google/autoload.php  
-/includes/classes/observers/google/ReCaptcha/ReCaptcha.php  
-/includes/classes/observers/google/ReCaptcha/RequestMethod.php  
-/includes/classes/observers/google/ReCaptcha/RequestParameters.php  
-/includes/classes/observers/google/ReCaptcha/Response.php  
-/includes/classes/observers/google/ReCaptcha/RequestMethod/Curl.php  
-/includes/classes/observers/google/ReCaptcha/RequestMethod/CurlPost.php    
-/includes/classes/observers/google/ReCaptcha/RequestMethod/Post.php  
-/includes/classes/observers/google/ReCaptcha/RequestMethod/Socket.php  
+
+The current version is tag v1.3.0 (newer versions may be available). All files are unmodified from the folder /src.
+  
+````
+/includes/classes/observers/google/autoload.php /includes/classes/observers/google/ReCaptcha/ReCaptcha.php
+/includes/classes/observers/google/ReCaptcha/RequestMethod.php
+/includes/classes/observers/google/ReCaptcha/RequestParameters.php /includes/classes/observers/google/ReCaptcha/Response.php
+/includes/classes/observers/google/ReCaptcha/RequestMethod/Curl.php
+/includes/classes/observers/google/ReCaptcha/RequestMethod/CurlPost.php
+/includes/classes/observers/google/ReCaptcha/RequestMethod/Post.php
+/includes/classes/observers/google/ReCaptcha/RequestMethod/Socket.php
 /includes/classes/observers/google/ReCaptcha/RequestMethod/SocketPost.php
+````
 
-Where core files are modified, I rename the original file (suffixed .158 php) so that it is adjacent to the modified file to highlight that there is a modification, and for easy comparison/reference.
-You do not need these/you may delete them/they do no harm/they are useful.
-
-**files in \includes\templates\YOUR_TEMPLATE\etc**  
-Rename YOUR_TEMPLATE to your template name, compare and merge.
-
-2. The code snippet that generates the Captcha html is in the template files.
+2. You must manually insert this code snippet:  
 ````
 <?php //plugin Google reCaptcha
 echo recaptcha_get_html(false, 'light', 'normal', 'margin:5px');
 //eof plugin Google reCaptcha ?>
 ````
+
+ ...in the template files where you want the Captcha to display.
+ 
+````
+\includes\templates\YOUR_TEMPLATE\templates\tpl_ask_a_question_default.php
+\includes\templates\YOUR_TEMPLATE\templates\tpl_contact_us_default.php
+\includes\templates\YOUR_TEMPLATE\templates\tpl_modules_create_account.php
+\includes\templates\YOUR_TEMPLATE\templates\tpl_product_reviews_write_default.php
+p
+````
+Examples are provided in the plugin's folder: /example template files
+
 This reCaptcha function call has four optional parameters, all four in the above example can be omitted (“margin:5px” is not a default style).
 a)	Wrap in a fieldset? false / true. Default is false.
 b)	reCAPTCHA theme: light / dark. Default is light.
@@ -63,10 +80,8 @@ Eg:
 ````
 <?php echo recaptcha_get_html(true, 'dark', 'compact'); // displays a dark, compact (square) reCAPTCHA surrounded by a fieldset ?>
 ````
-
 3. By default, the reCAPTCHA is **disabled** on all pages: you need to enable each page in
-/includes/functions/extra_functions/functions_google_recaptcha.php
-
+/includes/extra_configures/google_recaptcha.php
 
 4. An API key pair is required from Google are required to use the reCAPTCHA.
 
@@ -77,9 +92,9 @@ and create the Google reCAPTCHA keys for your domain. A key pair is linked to a 
 You may generate pairs for your production server, local server, development server…etc.  
 All can be placed in the array in the functions file, so the correct pair will be automatically used for the correct domain. This allows testing in different environments without needing to change the pair definitions and keeping the file identical on all the sites.
 
-5. Open the functions file for editing: 
+5. Open the configuration file for editing: 
 
-**/includes/functions/extra_functions/functions_google_recaptcha.php** 
+````/includes/extra_configures/google_recaptcha.php````
 
 Paste the domain name, site and private keys where indicated, and set to 'true' the pages where you wish the reCAPTCHA to be used.
  The reCAPTCHA should work with no further configuration necessary.
@@ -90,7 +105,7 @@ The error messages are defined in the plugin language file.
 
 ## Back In Stock Notifications Plugin
 https://github.com/torvista/Zen_Cart-Back_in_Stock_Notifications  
-01/20/2024: support for Recaptcha is now built-in.
+Support for Recaptcha is built-into the plugin.
 
 ## Problems
 a) Triple-check your installation and re-read the documentation.
@@ -124,6 +139,8 @@ On success, global $error is false subsequent to the notifier.
 On failure, global $error contains error message(s). Depending on the page, these are output by messageStack or in the case of BISN, outputted via the XHTML variable-substitution template.
 
 ## Changelog
+2024 09 05: torvista - reworked layout and readme. No funcionality changes.
+
 2024 01 20: torvista - Reviewed and reworked support for Back in Stock Notifications. Multiple minor fettling.
 
 2023 August torvista - update the Google reCaptcha source to tag 1.3.0.  Add support for Back In Stock Notifications.
