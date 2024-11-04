@@ -4,10 +4,11 @@ Released under the GPL License 2.0.
 
 This Plugin provides Google reCAPTCHA functionality (v2/v3), for optional use on the pages with public forms such as:  
 - Ask A Question
+- Back In Stock Notifications (plugin)
 - Create Account
 - Contact Us
 - Write a Review
-- Back In Stock (plugin)
+
 
 ## Compatibility
 
@@ -20,9 +21,9 @@ Tested through to Zen Cart 2.1 with php 8.3.
 
 `/includes/classes/observers/auto.google_recaptcha_observer.php`
 
-Observer that watches the relevant page(s) that have contact forms, to manage the reCaptcha.
+This observer watches the relevant page(s) headers that have contact forms, to manage the reCaptcha.
 
-`/includes/extra_configures/google_recaptcha.php`
+`/includes/extra_configures/plugin_google_recaptcha.php`
 
 Configuration file that you **MUST** edit, to add the website address (www.yoursite.whatever), the Google Site key and Private key and also to enable/disable the use of the reCaptcha on individual pages.  The details of this process are described below.
 
@@ -30,25 +31,16 @@ Configuration file that you **MUST** edit, to add the website address (www.yours
 
 Functions used by the plugin.
 
-`/includes/languages/english/extra_definitions/reCaptcha.php`
+`/includes/languages/english/extra_definitions/lang.google_recaptcha.php`
 
 The error message texts shown when the captcha is not validated.  
 Note that the text shown on the reCAPTCHA itself is Google-generated.
 
-The following set of files come directly from the Google reCAPTCHA library on GitHub: https://github.com/google/recaptcha
+The set of files from the Google reCAPTCHA library on GitHub: https://github.com/google/recaptcha
 
-The current version is tag v1.3.0 (newer versions may be available). All files are unmodified from the folder /src.
-  
-````
-/includes/classes/observers/google/autoload.php /includes/classes/observers/google/ReCaptcha/ReCaptcha.php
-/includes/classes/observers/google/ReCaptcha/RequestMethod.php
-/includes/classes/observers/google/ReCaptcha/RequestParameters.php /includes/classes/observers/google/ReCaptcha/Response.php
-/includes/classes/observers/google/ReCaptcha/RequestMethod/Curl.php
-/includes/classes/observers/google/ReCaptcha/RequestMethod/CurlPost.php
-/includes/classes/observers/google/ReCaptcha/RequestMethod/Post.php
-/includes/classes/observers/google/ReCaptcha/RequestMethod/Socket.php
-/includes/classes/observers/google/ReCaptcha/RequestMethod/SocketPost.php
-````
+are copied as-is into the directory /includes/classes/observers/google/recaptcha
+
+The current version is tag v1.3.0 (newer versions may be available). All files are unmodified.
 
 2. You must manually insert this code snippet:  
 ````
@@ -81,7 +73,7 @@ Eg:
 <?php echo recaptcha_get_html(true, 'dark', 'compact'); // displays a dark, compact (square) reCAPTCHA surrounded by a fieldset ?>
 ````
 3. By default, the reCAPTCHA is **disabled** on all pages: you need to enable each page in
-/includes/extra_configures/google_recaptcha.php
+/includes/extra_configures/plugin_google_recaptcha.php
 
 4. An API key pair is required from Google are required to use the reCAPTCHA.
 
@@ -133,12 +125,14 @@ a)	If the PHP environment has 'allow_url_fopen' disabled and so 'file_get_conten
 b)	If the PHP environment does not have 'fsockopen' available. The code will drop to an alternative method using cURL.
 
 ## How it Works
-The template file requests the recaptcha html, generated from the recaptcha_get_html function.  
+The template file requests the recaptcha html to display the recaptcha, generated from the recaptcha_get_html function.  
 When the user submits the form, there is a POST with the recaptcha data. The header of the file uses a notifier to send that to the recaptcha observer, which validates it.  
 On success, global $error is false subsequent to the notifier.  
 On failure, global $error contains error message(s). Depending on the page, these are output by messageStack or in the case of BISN, outputted via the XHTML variable-substitution template.
 
 ## Changelog
+2024 11 04: updated languages and error messages. Moved google code to vendors directory.
+
 2024 09 05: torvista - reworked layout and readme. No funcionality changes.
 
 2024 01 20: torvista - Reviewed and reworked support for Back in Stock Notifications. Multiple minor fettling.
