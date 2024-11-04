@@ -5,24 +5,24 @@ declare(strict_types=1);
  * Plugin Google reCaptcha
  * https://github.com/torvista/Zen_Cart-Google_reCAPTCHA
  * @license https://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: torvista 2024 01 20
+ * @updated  $Id: torvista 2024 11 04
  */
 class zcObserverGoogleRecaptchaObserver extends base {
     public function __construct() {
         $pages_to_check = [];
-        if (defined('GOOGLE_RECAPTCHA_ASK_QUESTION') && GOOGLE_RECAPTCHA_ASK_QUESTION==='true') {
+        if (defined('GOOGLE_RECAPTCHA_ASK_QUESTION') && GOOGLE_RECAPTCHA_ASK_QUESTION === 'true') {
             $pages_to_check[] = 'NOTIFY_ASK_A_QUESTION_CAPTCHA_CHECK';
         }
-        if (defined('GOOGLE_RECAPTCHA_BISN_SUBSCRIBE') && GOOGLE_RECAPTCHA_BISN_SUBSCRIBE==='true') {
+        if (defined('GOOGLE_RECAPTCHA_BISN_SUBSCRIBE') && GOOGLE_RECAPTCHA_BISN_SUBSCRIBE === 'true') {
             $pages_to_check[] = 'NOTIFY_BISN_SUBSCRIBE_CAPTCHA_CHECK';
         }
-        if (defined('GOOGLE_RECAPTCHA_CONTACT_US') && GOOGLE_RECAPTCHA_CONTACT_US==='true') {
+        if (defined('GOOGLE_RECAPTCHA_CONTACT_US') && GOOGLE_RECAPTCHA_CONTACT_US === 'true') {
             $pages_to_check[] = 'NOTIFY_CONTACT_US_CAPTCHA_CHECK';
         }
-        if (defined('GOOGLE_RECAPTCHA_CREATE_ACCOUNT') && GOOGLE_RECAPTCHA_CREATE_ACCOUNT==='true') {
+        if (defined('GOOGLE_RECAPTCHA_CREATE_ACCOUNT') && GOOGLE_RECAPTCHA_CREATE_ACCOUNT === 'true') {
             $pages_to_check[] = 'NOTIFY_CREATE_ACCOUNT_CAPTCHA_CHECK';
         }
-        if (defined('GOOGLE_RECAPTCHA_REVIEWS') && GOOGLE_RECAPTCHA_REVIEWS==='true') {
+        if (defined('GOOGLE_RECAPTCHA_REVIEWS') && GOOGLE_RECAPTCHA_REVIEWS === 'true') {
             $pages_to_check[] = 'NOTIFY_REVIEWS_WRITE_CAPTCHA_CHECK';
         }
         if (count($pages_to_check) > 0) $this->attach($this, $pages_to_check);
@@ -35,26 +35,26 @@ class zcObserverGoogleRecaptchaObserver extends base {
      * @return bool|string
      */
     public function update(&$class, $eventID, $paramsArray = []) {
-        global $messageStack, $error, $privatekey; //"$error" needs to be checked in page header after executing the notifier to send/accept or reject form.
+        global $messageStack, $error, $reCaptchaPrivateKey; //"$error" needs to be checked in page header after executing the notifier to send/accept or reject form.
 
-        require_once __DIR__ . '/google/autoload.php';
-
+        require DIR_FS_CATALOG . DIR_WS_CLASSES . 'vendors/Google/recaptcha/src/autoload.php';
+        
         switch (true) {
             case (ini_get('allow_url_fopen')!=='1' && function_exists('fsockopen')) :
                 // if file_get_contents() is disabled, this alternative request method uses fsockopen().
                 $method = 'SocketPost';
-                $recaptcha = new \ReCaptcha\ReCaptcha($privatekey, new \ReCaptcha\RequestMethod\SocketPost());
+                $recaptcha = new \ReCaptcha\ReCaptcha($reCaptchaPrivateKey, new \ReCaptcha\RequestMethod\SocketPost());
                 break;
             case (!function_exists('fsockopen')) :
                 // if fsockopen is disabled, this alternative request method uses Curl().
                 $method = 'CurlPost';
-                $recaptcha = new \ReCaptcha\ReCaptcha($privatekey, new \ReCaptcha\RequestMethod\CurlPost());
+                $recaptcha = new \ReCaptcha\ReCaptcha($reCaptchaPrivateKey, new \ReCaptcha\RequestMethod\CurlPost());
                 break;
             default:
                 $method = 'default';
-                $recaptcha = new \ReCaptcha\ReCaptcha($privatekey);
+                $recaptcha = new \ReCaptcha\ReCaptcha($reCaptchaPrivateKey);
         }
-        // pages have a specific identifier so messageStack outputs any error message only on the page that was submitted
+        // each page has a specific identifier for messageStack, so error messages are displayed only on that specific
         $event_array = [
             'NOTIFY_ASK_A_QUESTION_CAPTCHA_CHECK' => 'contact',  // note: Ask a Question DOES use identifier 'contact' for messageStack:https://github.com/zencart/zencart/issues/6143
             'NOTIFY_CONTACT_US_CAPTCHA_CHECK' => 'contact',
