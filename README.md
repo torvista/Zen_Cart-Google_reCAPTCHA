@@ -11,21 +11,23 @@ This Plugin provides Google reCAPTCHA functionality (v2/v3), for optional use on
 
 
 ## Compatibility
-
-It should work for all versions for Zen Cart 1.51 onwards. 
-Tested through to Zen Cart 2.1 with php 8.3.
+ 
+Tested with Zen Cart 2.1.0 (and previous), with php 8.4.  
+The Google files in 
+`/includes/classes/vendors/Google/recaptcha`
+would be ideally identical to those in the Google repository, but at the moment they have a single file edit for php 8.4 as described in the Github Issues, which should be resolved in the near future...
 
 ## Installation
 
-1. COPY the new files to your TEST server...for testing first!
+1. COPY the new files to (as always) your TEST server...for testing first!
 
 `/includes/classes/observers/auto.google_recaptcha_observer.php`
 
-This observer watches the relevant page(s) headers that have contact forms, to manage the reCaptcha.
+This observer watches the relevant page(s) headers that have contact forms, to manage the reCAPTCHA generation.
 
 `/includes/extra_configures/plugin_google_recaptcha.php`
 
-Configuration file that you **MUST** edit, to add the website address (www.yoursite.whatever), the Google Site key and Private key and also to enable/disable the use of the reCaptcha on individual pages.  The details of this process are described below.
+A configuration file that you **MUST** edit, to add the website address (www.yoursite.whatever), the Google Site key and Private key and also to enable/disable the use of the reCaptcha on individual pages.  The details of this process are described below.
 
 `/includes/functions/extra_functions/functions_google_recaptcha.php`
 
@@ -36,11 +38,11 @@ Functions used by the plugin.
 The error message texts shown when the captcha is not validated.  
 Note that the text shown on the reCAPTCHA itself is Google-generated.
 
+`/includes/classes/vendors/Google/recaptcha`
+
 The set of files from the Google reCAPTCHA library on GitHub: https://github.com/google/recaptcha
 
-are copied as-is into the directory 
-
-`/includes/classes/vendors/Google/recaptcha`
+These have been copied as-is into the directory but with one change for php 8.4.
 
 The current version is tag v1.3.0 (newer versions may be available). All files are unmodified.
 
@@ -51,7 +53,7 @@ echo recaptcha_get_html(false, 'light', 'normal', 'margin:5px');
 //eof plugin Google reCaptcha ?>
 ````
 
- ...in the template files where you want the Captcha to display.
+ ...in the template files in the position where you want the Captcha to display.
  
 ````
 \includes\templates\YOUR_TEMPLATE\templates\tpl_ask_a_question_default.php
@@ -98,7 +100,7 @@ The error messages are defined in the plugin language file.
 
 ## Back In Stock Notifications Plugin
 https://github.com/torvista/Zen_Cart-Back_in_Stock_Notifications  
-Support for Recaptcha is built-into the plugin.
+Support for reCaptcha is built-into the plugin.
 
 ## Problems
 a) Triple-check your installation and re-read the documentation.
@@ -132,6 +134,7 @@ On success, global $error is false subsequent to the notifier.
 On failure, global $error contains error message(s). Depending on the page, these are output by messageStack or in the case of BISN, outputted via the XHTML variable-substitution template.
 
 ## Changelog
+2025+: See the commit history
 2024 11 04: updated languages and error messages. Moved google code to vendors directory.
 
 2024 09 05: torvista - reworked layout and readme. No funcionality changes.

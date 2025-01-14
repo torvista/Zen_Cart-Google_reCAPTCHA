@@ -5,7 +5,7 @@ declare(strict_types=1);
  * Plugin Google reCaptcha
  * https://github.com/torvista/Zen_Cart-Google_reCAPTCHA
  * @license https://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @updated  $Id: torvista 2024 11 04
+ * @updated  $Id: torvista 2025 01 14
  */
 class zcObserverGoogleRecaptchaObserver extends base {
     public function __construct() {
@@ -31,14 +31,15 @@ class zcObserverGoogleRecaptchaObserver extends base {
     /**
      * @param $class
      * @param $eventID
-     * @param array $paramsArray
-     * @return bool|string
+     * @param  array  $paramsArray
+     * @return bool
      */
-    public function update(&$class, $eventID, $paramsArray = []) {
-        global $messageStack, $error, $reCaptchaPrivateKey; //"$error" needs to be checked in page header after executing the notifier to send/accept or reject form.
+    public function update(&$class, $eventID, array $paramsArray = []): bool
+    {
+        global $messageStack, $error, $reCaptchaPrivateKey; //"$error" needs to be checked in the page header after executing the notifier to send/accept or reject form.
 
         require DIR_FS_CATALOG . DIR_WS_CLASSES . 'vendors/Google/recaptcha/src/autoload.php';
-        
+
         switch (true) {
             case (ini_get('allow_url_fopen')!=='1' && function_exists('fsockopen')) :
                 // if file_get_contents() is disabled, this alternative request method uses fsockopen().
@@ -56,7 +57,7 @@ class zcObserverGoogleRecaptchaObserver extends base {
         }
         // each page has a specific identifier for messageStack, so error messages are displayed only on that specific
         $event_array = [
-            'NOTIFY_ASK_A_QUESTION_CAPTCHA_CHECK' => 'contact',  // note: Ask a Question DOES use identifier 'contact' for messageStack:https://github.com/zencart/zencart/issues/6143
+            'NOTIFY_ASK_A_QUESTION_CAPTCHA_CHECK' => 'contact',  // note: Ask a Question DOES use identifier 'contact' for messageStack: https://github.com/zencart/zencart/issues/6143
             'NOTIFY_CONTACT_US_CAPTCHA_CHECK' => 'contact',
             'NOTIFY_CREATE_ACCOUNT_CAPTCHA_CHECK' => 'create_account',
             'NOTIFY_BISN_SUBSCRIBE_CAPTCHA_CHECK' => 'bisn_subscribe',

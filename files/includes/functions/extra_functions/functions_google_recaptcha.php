@@ -18,7 +18,7 @@ declare(strict_types=1);
  * @param string|null $style Add as a css style to the reCaptcha div (optional)
  * @return string - The Recaptcha box HTML to be embedded in the form.
  */
-function recaptcha_get_html(bool $fieldset = false, string $theme = 'light', string $size = 'normal', string $style = null): string
+function recaptcha_get_html(bool $fieldset = false, string $theme = 'light', string $size = 'normal', ?string $style = null): string
 {
     global $current_page_base, $reCaptchaSiteKey, $reCaptchaPrivateKey;
     
