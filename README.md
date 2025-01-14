@@ -13,9 +13,6 @@ This Plugin provides Google reCAPTCHA functionality (v2/v3), for optional use on
 ## Compatibility
  
 Tested with Zen Cart 2.1.0 (and previous), with php 8.4.  
-The Google files in 
-`/includes/classes/vendors/Google/recaptcha`
-would be ideally identical to those in the Google repository, but at the moment they have a single file edit for php 8.4 as described in the Github Issues, which should be resolved in the near future...
 
 ## Installation
 
@@ -40,11 +37,13 @@ Note that the text shown on the reCAPTCHA itself is Google-generated.
 
 `/includes/classes/vendors/Google/recaptcha`
 
-The set of files from the Google reCAPTCHA library on GitHub: https://github.com/google/recaptcha
+In here are the set of files from the Google reCAPTCHA library on GitHub: https://github.com/google/recaptcha
 
-These have been copied as-is into the directory but with one change for php 8.4.
+The current version included here is tag v1.3.0 (newer versions may be available).
 
-The current version is tag v1.3.0 (newer versions may be available). All files are unmodified.
+All files are unmodified, bar one: ReCaptcha.php, which has minor fixes for php 8.4
+
+ https://github.com/torvista/Zen_Cart-Google_reCAPTCHA/issues/3
 
 2. You must manually insert this code snippet:  
 ````
@@ -135,6 +134,7 @@ On failure, global $error contains error message(s). Depending on the page, thes
 
 ## Changelog
 2025+: See the commit history
+
 2024 11 04: updated languages and error messages. Moved google code to vendors directory.
 
 2024 09 05: torvista - reworked layout and readme. No funcionality changes.
