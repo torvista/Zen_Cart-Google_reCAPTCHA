@@ -37,11 +37,11 @@ Note that the text shown on the reCAPTCHA itself is Google-generated.
 
 `/includes/classes/vendors/Google/recaptcha`
 
-In here are the set of files from the Google reCAPTCHA library on GitHub: https://github.com/google/recaptcha
+The set of files from the Google reCAPTCHA library on GitHub: https://github.com/google/recaptcha
 
-The current version included here is tag v1.3.0 (newer versions may be available).
+These have been copied as-is into the directory but with one change for php 8.4.
 
-All files are unmodified, bar one: ReCaptcha.php, which has minor fixes for php 8.4
+The current version is tag v1.3.0 (newer versions may be available). All files are unmodified.
 
  https://github.com/torvista/Zen_Cart-Google_reCAPTCHA/issues/3
 
