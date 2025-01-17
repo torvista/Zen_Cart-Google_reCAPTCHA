@@ -5,23 +5,28 @@ declare(strict_types=1);
  * Plugin Google reCaptcha
  * https://github.com/torvista/Zen_Cart-Google_reCAPTCHA
  * @license https://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @updated  $Id: torvista 2025 01 14
+ * @updated  $Id: torvista 2025-01-17
  */
 class zcObserverGoogleRecaptchaObserver extends base {
     public function __construct() {
         $pages_to_check = [];
+        // Note that this notifier passes the $_POST array as the first parameter
         if (defined('GOOGLE_RECAPTCHA_ASK_QUESTION') && GOOGLE_RECAPTCHA_ASK_QUESTION === 'true') {
             $pages_to_check[] = 'NOTIFY_ASK_A_QUESTION_CAPTCHA_CHECK';
         }
+        // Note that this notifier passes the $_POST array as the first parameter
         if (defined('GOOGLE_RECAPTCHA_BISN_SUBSCRIBE') && GOOGLE_RECAPTCHA_BISN_SUBSCRIBE === 'true') {
             $pages_to_check[] = 'NOTIFY_BISN_SUBSCRIBE_CAPTCHA_CHECK';
         }
+        // Note that this notifier passes the $_POST array as the first parameter
         if (defined('GOOGLE_RECAPTCHA_CONTACT_US') && GOOGLE_RECAPTCHA_CONTACT_US === 'true') {
             $pages_to_check[] = 'NOTIFY_CONTACT_US_CAPTCHA_CHECK';
         }
+        // Note that this notifier passes two parameters as strings: $antiSpamFieldName, $antiSpam 
         if (defined('GOOGLE_RECAPTCHA_CREATE_ACCOUNT') && GOOGLE_RECAPTCHA_CREATE_ACCOUNT === 'true') {
             $pages_to_check[] = 'NOTIFY_CREATE_ACCOUNT_CAPTCHA_CHECK';
         }
+        // Note that this notifier passes no parameter
         if (defined('GOOGLE_RECAPTCHA_REVIEWS') && GOOGLE_RECAPTCHA_REVIEWS === 'true') {
             $pages_to_check[] = 'NOTIFY_REVIEWS_WRITE_CAPTCHA_CHECK';
         }
@@ -31,10 +36,11 @@ class zcObserverGoogleRecaptchaObserver extends base {
     /**
      * @param $class
      * @param $eventID
-     * @param  array  $paramsArray
+     * @param  array|string  $p1
+     * @param  string  $p2
      * @return bool
      */
-    public function update(&$class, $eventID, array $paramsArray = []): bool
+    public function update(&$class, $eventID, array|string $p1, string $p2): bool
     {
         global $messageStack, $error, $reCaptchaPrivateKey; //"$error" needs to be checked in the page header after executing the notifier to send/accept or reject form.
 
