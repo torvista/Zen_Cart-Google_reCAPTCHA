@@ -1,11 +1,20 @@
 <?php
+
+declare(strict_types=1);
+/**
+ * Plugin Google reCaptcha based on template_default
+ * https://github.com/torvista/Zen_Cart-Google_reCAPTCHA
+ * @license https://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
+ * @version $Id: torvista 14 Feb 2025
+ */
+
 /**
  * Page Template
  *
- * @copyright Copyright 2003-2022 Zen Cart Development Team
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: DrByte 2021 Apr 26 Modified in v1.5.8-alpha $
+ * @version $Id: DrByte 2023 Oct 05 Modified in v2.0.0-alpha1 $
  */
 ?>
 <div class="centerColumn" id="reviewsWrite">
@@ -37,7 +46,7 @@
 
 <h2 id="reviewsWritePrice"><?php echo $products_price; ?></h2>
 
-<h3 id="reviewsWriteReviewer" class=""><?php echo SUB_TITLE_FROM, zen_output_string_protected($customer->fields['customers_firstname'] . ' ' . $customer->fields['customers_lastname']); ?></h3>
+<h3 id="reviewsWriteReviewer" class=""><?php echo SUB_TITLE_FROM, zen_output_string_protected($reviewer->fields['customers_firstname'] . ' ' . $reviewer->fields['customers_lastname']); ?></h3>
 <br class="clearBoth">
 
 <?php if ($messageStack->size('review_text') > 0) echo $messageStack->output('review_text'); ?>
@@ -64,6 +73,9 @@
 <label id="textAreaReviews" for="review-text"><?php echo SUB_TITLE_REVIEW; ?></label>
 <?php echo zen_draw_textarea_field('review_text', 60, 5, $review_text, 'id="review-text"'); ?>
 <?php echo zen_draw_input_field($antiSpamFieldName, '', ' size="60" id="RAS" style="visibility:hidden; display:none;" autocomplete="off"'); ?>
+<?php //plugin Google reCaptcha
+echo recaptcha_get_html(false, 'light', 'normal', 'margin:5px');
+//eof plugin Google reCaptcha ?>
 
     <div class="buttonRow forward"><?php echo zen_image_submit(BUTTON_IMAGE_SUBMIT, BUTTON_SUBMIT_ALT); ?></div>
 <br class="clearBoth">

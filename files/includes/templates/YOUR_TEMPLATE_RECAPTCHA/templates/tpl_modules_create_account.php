@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 /**
- * Plugin Google reCaptcha
+ * Plugin Google reCaptcha based on template_default
  * https://github.com/torvista/Zen_Cart-Google_reCAPTCHA
  * @license https://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: torvista 2024 01 20
+ * @version $Id: torvista 14 Feb 2025
  */
 /**
  * Page Template

@@ -1,14 +1,22 @@
 <?php
+
+declare(strict_types=1);
+/**
+ * Plugin Google reCaptcha based on tempalte default
+ * https://github.com/torvista/Zen_Cart-Google_reCAPTCHA
+ * @license https://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
+ * @version $Id: torvista 14 Feb 2025
+ */
 /**
  * Page Template
  *
  * Loaded automatically by index.php?main_page=contact_us.
  * Displays contact us page form.
  *
- * @copyright Copyright 2003-2022 Zen Cart Development Team
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: lat9 2022 Jun 23 Modified in v1.5.8-alpha $
+ * @version $Id: brittainmark 2023 May 23 Modified in v2.0.0-alpha1 $
  */
 ?>
 <div class="centerColumn" id="contactUsDefault">
@@ -78,6 +86,9 @@
 <?php echo zen_draw_input_field($antiSpamFieldName, '', ' size="40" id="CUAS" style="visibility:hidden; display:none;" autocomplete="off"'); ?>
 
 </fieldset>
+<?php //plugin Google reCaptcha
+echo recaptcha_get_html(false, 'light', 'normal', 'margin:5px');
+//eof plugin Google reCaptcha ?>
 
 <div class="buttonRow forward"><?php echo zen_image_submit(BUTTON_IMAGE_SEND, BUTTON_SEND_ALT); ?></div>
 <div class="buttonRow back"><?php echo zen_back_link() . zen_image_button(BUTTON_IMAGE_BACK, BUTTON_BACK_ALT) . '</a>'; ?></div>

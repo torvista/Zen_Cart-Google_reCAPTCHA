@@ -5,10 +5,10 @@ Released under the GPL License 2.0.
 This Plugin provides Google reCAPTCHA functionality (v2/v3), for optional use on the pages with public forms such as:  
 - Ask A Question
 - Back In Stock Notifications (plugin)
-- Create Account
 - Contact Us
+- Create Account
+- Login
 - Write a Review
-
 
 ## Compatibility
  
@@ -16,15 +16,66 @@ Tested with Zen Cart 2.1.0 (and previous), with php 8.4.
 
 ## Installation
 
-1. COPY the new files to (as always) your TEST server...for testing first!
+1. In the /files directory are new files and examples of template override files.   You may COPY all of them to, (as always) your DEVELOPMENT SERVER for testing first!  
+All files are new/should not overwrite any core files.  
+The folder  
+````\includes\templates\YOUR_TEMPLATE_RECAPTCHA````  
+can be used to compare to your existing template files for merging if you have already using a modified template file or can be copied directly if you are not using an overrides for that file.
 
+2. An API key pair is required from Google are required to use the reCAPTCHA.  
+Go to  
+https://www.google.com/recaptcha/admin/create  
+and create the Google reCAPTCHA keys for your domain.  
+A key pair is linked to a specific domain.  
+Copy and save the two keys somewhere.  
+You may generate pairs for your production server, local server, development server…etc. 
+
+3. Open the configuration file for editing: 
+
+````/includes/extra_configures/google_recaptcha.php````
+
+Paste the domain name, site and private keys where indicated.  
+All your domain-key pairs can be placed in the array in this file, so the correct pair will be automatically used for the correct domain. This allows testing in different environments without needing to change the pair definitions and keeping the file identical on all the sites.
+
+Also set to 'true' the pages where you wish the reCAPTCHA to be used.  
+Login and Reviews are set to disabled by default. The others are enabled.
+
+
+4. You must manually insert this code snippet in the template files:
+````
+<?php //plugin Google reCaptcha
+echo recaptcha_get_html(false, 'light', 'normal', 'margin:5px');
+//eof plugin Google reCaptcha ?>
+````
+ ... in the position where you want the Captcha to display.
+ 
+ e.g.
+
+````
+\includes\templates\YOUR_TEMPLATE\templates\tpl_ask_a_question_default.php
+\includes\templates\YOUR_TEMPLATE\templates\tpl_contact_us_default.php
+\includes\templates\YOUR_TEMPLATE\templates\tpl_modules_create_account.php
+\includes\templates\YOUR_TEMPLATE\templates\tpl_product_reviews_write_default.php
+````
+Examples are provided in the plugin's folder: /files_for_templates.
+
+This reCaptcha function call has four optional parameters, all four in the above example can be omitted (“margin:5px” is not a default style).
+a)	Wrap in a fieldset? false / true. Default is false.
+b)	reCAPTCHA theme: light / dark. Default is light.
+c)	reCAPTCHA size: normal (rectangular)/ compact (square). Default is normal.
+d)	Additional styles for the container. These will not affect the reCaptcha, only the containing div.  
+Eg:
+````
+<?php echo recaptcha_get_html(); // no parameters: displays a light, normal-size (rectangular) reCAPTCHA ?>
+````
+````
+<?php echo recaptcha_get_html(true, 'dark', 'compact'); // displays a dark, compact (square) reCAPTCHA surrounded by a fieldset ?>
+````
+
+### File descriptions
 `/includes/classes/observers/auto.google_recaptcha_observer.php`
 
 This observer watches the relevant page(s) headers that have contact forms, to manage the reCAPTCHA generation.
-
-`/includes/extra_configures/plugin_google_recaptcha.php`
-
-A configuration file that you **MUST** edit, to add the website address (www.yoursite.whatever), the Google Site key and Private key and also to enable/disable the use of the reCaptcha on individual pages.  The details of this process are described below.
 
 `/includes/functions/extra_functions/functions_google_recaptcha.php`
 
@@ -37,61 +88,13 @@ Note that the text shown on the reCAPTCHA itself is Google-generated.
 
 `/includes/classes/vendors/Google/recaptcha`
 
-The set of files from the Google reCAPTCHA library on GitHub: https://github.com/google/recaptcha
+In here are the set of files from the Google reCAPTCHA library on GitHub: https://github.com/google/recaptcha
 
-These have been copied as-is into the directory but with one change for php 8.4.
+The current version included here is tag v1.3.0 (newer versions may be available).
 
-The current version is tag v1.3.0 (newer versions may be available). All files are unmodified.
+All files are unmodified, bar one: ReCaptcha.php, which has minor fixes for php 8.4
 
  https://github.com/torvista/Zen_Cart-Google_reCAPTCHA/issues/3
-
-2. You must manually insert this code snippet:  
-````
-<?php //plugin Google reCaptcha
-echo recaptcha_get_html(false, 'light', 'normal', 'margin:5px');
-//eof plugin Google reCaptcha ?>
-````
-
- ...in the template files in the position where you want the Captcha to display.
- 
-````
-\includes\templates\YOUR_TEMPLATE\templates\tpl_ask_a_question_default.php
-\includes\templates\YOUR_TEMPLATE\templates\tpl_contact_us_default.php
-\includes\templates\YOUR_TEMPLATE\templates\tpl_modules_create_account.php
-\includes\templates\YOUR_TEMPLATE\templates\tpl_product_reviews_write_default.php
-````
-Examples are provided in the plugin's folder: /example template files
-
-This reCaptcha function call has four optional parameters, all four in the above example can be omitted (“margin:5px” is not a default style).
-a)	Wrap in a fieldset? false / true. Default is false.
-b)	reCAPTCHA theme: light / dark. Default is light.
-c)	reCAPTCHA size: normal (rectangular)/ compact (square). Default is normal.
-d)	Additional styles for the container. These will not affect the reCaptcha, only the containing div.
-Eg:
-````
-<?php echo recaptcha_get_html(); // no parameters: displays a light, normal-size (rectangular) reCAPTCHA ?>
-````
-````
-<?php echo recaptcha_get_html(true, 'dark', 'compact'); // displays a dark, compact (square) reCAPTCHA surrounded by a fieldset ?>
-````
-3. By default, the reCAPTCHA is **disabled** on all pages: you need to enable each page in
-/includes/extra_configures/plugin_google_recaptcha.php
-
-4. An API key pair is required from Google are required to use the reCAPTCHA.
-
-Go to
-https://www.google.com/recaptcha/admin/create 
-and create the Google reCAPTCHA keys for your domain. A key pair is linked to a specific domain.  Copy and save the two keys somewhere.
-
-You may generate pairs for your production server, local server, development server…etc.  
-All can be placed in the array in the functions file, so the correct pair will be automatically used for the correct domain. This allows testing in different environments without needing to change the pair definitions and keeping the file identical on all the sites.
-
-5. Open the configuration file for editing: 
-
-````/includes/extra_configures/google_recaptcha.php````
-
-Paste the domain name, site and private keys where indicated, and set to 'true' the pages where you wish the reCAPTCHA to be used.
- The reCAPTCHA should work with no further configuration necessary.
 
 ## Language
 The language used in the reCAPTCHA is generated by Google and based on the shop session language or English.
@@ -102,12 +105,17 @@ https://github.com/torvista/Zen_Cart-Back_in_Stock_Notifications
 Support for reCaptcha is built-into the plugin.
 
 ## Problems
+
+a) On the page appears the message  
+** reCaptcha: sitekey undefined **  
+This is a Google message. It means the request was sent to Google but the credentials used (domain, site key, secret key) don't match their data in some way.
+
 a) Triple-check your installation and re-read the documentation.
 
-b) Review the reCaptcha FAQ:  
+a) Review the reCaptcha FAQ:  
 https://developers.google.com/recaptcha/docs/faq
 
-c) The reCaptcha does not display: the api.js is not attempted to be downloaded/is not shown in the browser Developer Tools->Network and you have Content-Security-Policy implemented:  
+a) The reCaptcha does not display: the api.js is not even attempted to be downloaded/is not shown in the browser Developer Tools->Network->JS at all and you have Content-Security-Policy implemented:  
 https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP   
 This is mentioned in the reCaptcha FAQ.
 You will need to add the exceptions to the CSP Policy either at server or meta-tag level.  
@@ -120,17 +128,20 @@ child-src 'self' https://www.recaptcha.net/">
 and this will be additional to whatever is your already-working CSP policies/parameters as in this user example:  
 https://www.zen-cart.com/showthread.php?198357-Support-Thread-for-Google-reCAPTCHA-plugin&p=1390588#post1390588
 
-d) If you still cannot get it to work, post an issue here or in the relevant thread on the Zen Cart Forums - https://www.zen-cart.com/showthread.php?198357-Support-Thread-for-Google-reCAPTCHA 
+a) If you still cannot get it to work, post an issue here or in the relevant thread on the Zen Cart Forums - https://www.zen-cart.com/showthread.php?198357-Support-Thread-for-Google-reCAPTCHA 
 
 ## Notes
 a)	If the PHP environment has 'allow_url_fopen' disabled and so 'file_get_contents' does not work. The code will drop to an alternative method using fsockopen.
-b)	If the PHP environment does not have 'fsockopen' available. The code will drop to an alternative method using cURL.
+a)	If the PHP environment does not have 'fsockopen' available. The code will drop to an alternative method using cURL.
 
 ## How it Works
-The template file requests the recaptcha html to display the recaptcha, generated from the recaptcha_get_html function.  
-When the user submits the form, there is a POST with the recaptcha data. The header of the file uses a notifier to send that to the recaptcha observer, which validates it.  
-On success, global $error is false subsequent to the notifier.  
-On failure, global $error contains error message(s). Depending on the page, these are output by messageStack or in the case of BISN, outputted via the XHTML variable-substitution template.
+1. The template file snippet gets the recaptcha html from the recaptcha_get_html function.
+1. The function decides if that page has been enabled for displaying the reCaptcha.  
+If so, it returns the html necessary for the page to get the code from Google.  
+If not, it returns a html comment to that effect, which can be seen in the page source (for debugging).
+1. When the form is submitted, a notifier in that specific page triggers the observer which creates the code to handle the response from Google (via api.js).  
+If the response is ok, the global $error is returned as false and the form processing continues.  
+If the response is not ok, the global $error is returned as true and a corresponding error message is displayed in the messageStack (in the case of BISN, outputted via the XHTML variable-substitution template).
 
 ## Changelog
 2025+: See the commit history
