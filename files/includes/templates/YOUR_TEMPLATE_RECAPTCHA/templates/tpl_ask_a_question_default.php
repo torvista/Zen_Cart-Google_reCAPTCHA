@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 /**
- * Plugin Google reCaptcha
+ * Plugin Google reCaptcha based on template_default
  * https://github.com/torvista/Zen_Cart-Google_reCAPTCHA
  * @license https://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: torvista 2024 01 20
+ * @version $Id: torvista 14 Feb 2025
  */
 
 /**
- * @copyright Copyright 2003-2022 Zen Cart Development Team
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: Scott C Wilson 2022 Jan 22 Modified in v1.5.8-alpha $
+ * @version $Id: brittainmark 2023 Jun 12 Modified in v2.0.0-alpha1 $
  */
 ?>
 <div class="centerColumn" id="askAQuestion">
