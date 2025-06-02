@@ -16,13 +16,19 @@ Tested with Zen Cart 2.1.0 (and previous), with php 8.4.
 
 ## Installation
 
-1. In the /files directory are new files and examples of template override files.   You may COPY all of them to, (as always) your DEVELOPMENT SERVER for testing first!  
+1. In the /files directory are new files and examples of template override files.  
+You may COPY all of them to, (as always) your DEVELOPMENT SERVER for testing first!  
 All files are new/should not overwrite any core files.  
 The folder  
 ````\includes\templates\YOUR_TEMPLATE_RECAPTCHA````  
 can be used to compare to your existing template files for merging if you have already using a modified template file or can be copied directly if you are not using an overrides for that file.
 
-2. An API key pair is required from Google are required to use the reCAPTCHA.  
+1. Google reCaptcha files  
+The directory  
+````\includes\classes\vendors\Google RENAME TO Google````  
+should be renamed to Google (for some reason I could not include that in this fileset with the original name).
+
+1. An API key pair is required from Google are required to use the reCAPTCHA.  
 Go to  
 https://www.google.com/recaptcha/admin/create  
 and create the Google reCAPTCHA keys for your domain.  
@@ -30,26 +36,21 @@ A key pair is linked to a specific domain.
 Copy and save the two keys somewhere.  
 You may generate pairs for your production server, local server, development server…etc. 
 
-3. Open the configuration file for editing: 
-
-````/includes/extra_configures/google_recaptcha.php````
-
+1. Open the configuration file for editing:  
+````/includes/extra_configures/google_recaptcha.php````  
 Paste the domain name, site and private keys where indicated.  
-All your domain-key pairs can be placed in the array in this file, so the correct pair will be automatically used for the correct domain. This allows testing in different environments without needing to change the pair definitions and keeping the file identical on all the sites.
-
+All your domain-key pairs can be placed in the array in this file, so the correct pair will be automatically used for the correct domain. This allows testing in different environments without needing to change the pair definitions and keeping the file identical on all the sites.  
 Also set to 'true' the pages where you wish the reCAPTCHA to be used.  
 Login and Reviews are set to disabled by default. The others are enabled.
 
-
-4. You must manually insert this code snippet in the template files:
+1. You must manually insert this code snippet in the template files:
 ````
 <?php //plugin Google reCaptcha
 echo recaptcha_get_html(false, 'light', 'normal', 'margin:5px');
 //eof plugin Google reCaptcha ?>
 ````
- ... in the position where you want the Captcha to display.
- 
- e.g.
+ ... in the position where you want the Captcha to display.  
+e.g.
 
 ````
 \includes\templates\YOUR_TEMPLATE\templates\tpl_ask_a_question_default.php
@@ -102,7 +103,7 @@ The error messages are defined in the plugin language file.
 
 ## Back In Stock Notifications Plugin
 https://github.com/torvista/Zen_Cart-Back_in_Stock_Notifications  
-Support for reCaptcha is built-into the plugin.
+Support for reCaptcha is built into this plugin.
 
 ## Problems
 
@@ -145,6 +146,8 @@ If the response is not ok, the global $error is returned as true and a correspon
 
 ## Changelog
 2025+: See the commit history
+
+2025 06 02: included missing Google code.
 
 2024 11 04: updated languages and error messages. Moved google code to vendors directory.
 
