@@ -5,7 +5,7 @@ declare(strict_types=1);
  * Plugin Google reCaptcha
  * https://github.com/torvista/Zen_Cart-Google_reCAPTCHA
  * @license https://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @updated  $Id: torvista 14 Feb 2025
+ * @updated  $Id: torvista 26 Apr 2026
  */
 
 /**
@@ -20,7 +20,7 @@ declare(strict_types=1);
  */
 function recaptcha_get_html(bool $fieldset = false, string $theme = 'light', string $size = 'normal', ?string $style = null): string
 {
-    global $current_page_base, $reCaptchaSiteKey, $reCaptchaSecretKey;
+    global $current_page_base, $reCaptchaSiteKey, $reCaptchaSecretKey, $template_dir;
 
     if ($reCaptchaSiteKey === '' || $reCaptchaSecretKey === '') {
         return RECAPTCHA_UNDEFINED_SITEKEY;
@@ -29,6 +29,7 @@ function recaptcha_get_html(bool $fieldset = false, string $theme = 'light', str
 // supported languages updated 21/03/2021: https://developers.google.com/recaptcha/docs/language
 // to update/compare see spreadsheet in GitHub repository root
     $reCaptcha_languages = ['ar', 'af', 'am', 'hy', 'az', 'eu', 'bn', 'bg', 'ca', 'zh-HK', 'zh-CN', 'zh-TW', 'hr', 'cs', 'da', 'nl', 'en-GB', 'en', 'et', 'fil', 'fi', 'fr', 'fr-CA', 'gl', 'ka', 'de', 'de-AT', 'de-CH', 'el', 'gu', 'iw', 'hi', 'hu', 'is', 'id', 'it', 'ja', 'kn', 'ko', 'lo', 'lv', 'lt', 'ms', 'ml', 'mr', 'mn', 'no', 'fa', 'pl', 'pt', 'pt-BR', 'pt-PT', 'ro', 'ru', 'sr', 'si', 'sk', 'sl', 'es', 'es-419', 'sw', 'sv', 'ta', 'te', 'th', 'tr', 'uk', 'ur', 'vi', 'zu', ];
+    $reCaptcha_language_default = 'en';
 
     $recaptcha_html = '';
     switch (true) {
@@ -59,7 +60,8 @@ function recaptcha_get_html(bool $fieldset = false, string $theme = 'light', str
         // Recaptcha language: default to en if zc language two-letter code not in recaptcha supported languages
         $lang = '?hl=' . (in_array($_SESSION['languages_code'], $reCaptcha_languages, true) ? $_SESSION['languages_code'] : 'en');
 
-        //$recaptcha_html = '<script src="https://www.google.com/recaptcha/api.js' . $lang . '" async defer></script>' . "\n";//not working if www.google.com blocked
+        // this link not working if www.google.com is blocked
+        //$recaptcha_html = '<script src="https://www.google.com/recaptcha/api.js' . $lang . '" async defer></script>' . "\n";
         $recaptcha_html = '<script src="https://www.recaptcha.net/recaptcha/api.js' . $lang . '" async defer></script>' . "\n";
         $recaptcha_html .= '<div class="g-recaptcha" data-sitekey="' . $reCaptchaSiteKey . '"';
         if ($theme !== 'light') { // default is light

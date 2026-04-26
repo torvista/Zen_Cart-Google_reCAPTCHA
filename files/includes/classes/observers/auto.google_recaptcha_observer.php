@@ -5,10 +5,11 @@ declare(strict_types=1);
  * Plugin Google reCaptcha
  * https://github.com/torvista/Zen_Cart-Google_reCAPTCHA
  * @license https://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @updated  $Id: torvista 14 Feb 2025
+ * @version  $Id: torvista 09 April 2026
  */
 class zcObserverGoogleRecaptchaObserver extends base {
     public function __construct() {
+        // enable the per-page reCaptcha in \includes\extra_configures\plugin_google_recaptcha.php
         $notifiers_to_check = [];
         // Note that this notifier passes the $_POST array as the first parameter
         if (defined('GOOGLE_RECAPTCHA_ASK_QUESTION') && GOOGLE_RECAPTCHA_ASK_QUESTION === 'true') {
@@ -43,6 +44,7 @@ class zcObserverGoogleRecaptchaObserver extends base {
      * @param $eventID
      * @param  array|string  $p1
      * @param  string|null  $p2
+     * @param $p3
      * @return void
      */
     public function update(&$class, $eventID, array|string $p1, ?string $p2, $p3): void
@@ -128,6 +130,5 @@ class zcObserverGoogleRecaptchaObserver extends base {
                 // validation has already failed: do nothing/return to standard processing of error
             }
         }
-        return;
     }
 }
