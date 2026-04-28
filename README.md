@@ -12,7 +12,7 @@ This Plugin provides Google reCAPTCHA functionality (v2/v3), for optional use on
 
 ## Compatibility
  
-Tested with Zen Cart 2.1.0 (and previous), with php 8.4.  
+Tested with Zen Cart 2.2.0 (and previous), with php 8.4+ (and ZC300/php8.5).
 
 ## Installation
 
@@ -145,7 +145,10 @@ If the response is ok, the global $error is returned as false and the form proce
 If the response is not ok, the global $error is returned as true and a corresponding error message is displayed in the messageStack (in the case of BISN, outputted via the XHTML variable-substitution template).
 
 ## Changelog
-2025+: See the commit history
+
+For more details, see the commit history.
+
+2026 04 26: updated Google code
 
 2025 06 02: included missing Google code.
 
